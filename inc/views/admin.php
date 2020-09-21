@@ -6,9 +6,9 @@
 <script id="custom-template" type="text/html">
 
 	<div>
-		<input model_attr_name = "state" class="state" id="dash-adder-on" <%= option === 'on'? 'checked' : '' %> type="radio" name="dash-adder-state" value="on">
+		<input model_attr_name = "plugin_state" class="state" id="dash-adder-on" <%= option === 'on'? 'checked' : '' %> type="radio" name="dash-adder-state" value="on">
 		<label for="dash-adder-on">ON</label>
-		<input model_attr_name = "state" class="state" id="dash-adder-off" <%= option === 'on'? '' : 'checked' %> type="radio" name="dash-adder-state" value="off">
+		<input model_attr_name = "plugin_state" class="state" id="dash-adder-off" <%= option === 'on'? '' : 'checked' %> type="radio" name="dash-adder-state" value="off">
 		<label for="dash-adder-off">OFF</label><br/>
 	</div>
 	<div>

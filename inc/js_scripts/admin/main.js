@@ -17,10 +17,8 @@
 //			'change #special-word': 'handleChange',
 			'click #save-settings': 'saveSettings',
 		},
-		handleChange: function ( elem ) {
-			console.log("Triggered");
-			this.model.set( 'plugin_state', $( "input[name='dash-adder-state']:checked" ).val() );
-			this.model.set( 'special_word', $( "#special-word" ).val() );
+		handleChange: function ( event ) {
+			this.model.set( $(event.target).attr('model_attr_name'), $(event.target).val() );
 		},
 		saveSettings: function () {
 

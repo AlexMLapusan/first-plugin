@@ -8,9 +8,14 @@ function al_register_routes() {
 	) );
 }
 
-function al_da_change_state() {
-	update_option( 'dash-adder-state', $_POST['state'] );
-	update_option( 'dash-adder-special-word', $_POST['special_word'] );
+/**
+ * @param WP_REST_Response $request
+ *
+ * @return string[] test message
+ */
+function al_da_change_state( $request ) {
+	update_option( 'dash-adder-state', $request->get_param( 'state' ) );
+	update_option( 'dash-adder-special-word', $request->get_param('special_word') );
 
-	return array( 'message' => 'state: ' . $_POST['state'] . ' special_word: ' . $_POST['special_word'] );
+	return array( 'message' => 'state: ' . $request->get_param('state') . ' special_word: ' . $request->get_param('special_word') );
 }
