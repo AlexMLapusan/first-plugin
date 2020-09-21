@@ -9,7 +9,8 @@ function al_register_routes() {
 }
 
 function al_da_change_state() {
-	update_option( 'dash-adder-state', $_GET['state'] );
+	update_option( 'dash-adder-state', $_POST['state'] );
+	update_option( 'dash-adder-special-word', $_POST['special_word'] );
 
-	return array( 'message' => $_GET['state'] );
+	return array( 'message' => 'state: ' . $_POST['state'] . ' special_word: ' . $_POST['special_word'] );
 }
