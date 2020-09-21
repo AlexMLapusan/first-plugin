@@ -11,10 +11,11 @@ function al_enqueue_scripts() {
 			'special_word' => get_option( 'dash-adder-special-word' ),
 		),
 		//get the proper url use get_rest_url
-		'rest_url' => get_rest_url( null, 'dash-adder/v1/test' ),
+		'rest_url' => get_rest_url( get_current_blog_id(), 'dash-adder/v1/save_settings' ),
 	) );
 
 	//styles
+	//todo this doesn't exist
 	wp_enqueue_style( 'al-main-style', plugin_dir_url( __FILE__ ) . 'style/main.css' );
 }
 
