@@ -1,8 +1,5 @@
 ( function ( $ ) {
 
-	//todo remove console.logs in JS
-	console.log( dash_adder.settings );
-
 	let model = new Backbone.Model( dash_adder.settings );
 
 	let SettingsViewClass = Backbone.View.extend( {
@@ -15,7 +12,6 @@
 		},
 		events: {
 			'change ': 'handleChange',
-//			'change #special-word': 'handleChange',
 			'click #save-settings': 'saveSettings',
 		},
 		handleChange: function ( event ) {
@@ -26,8 +22,7 @@
 			$.ajax( {
 				method: 'POST',
 				url: dash_adder.rest_url,
-				data:
-					{'test': 'aaa'}, //todo re-add 'state' and 'special_word'
+				data: this.model.attributes,
 			} ).success( function () {
 				alert( "Settings saved" );
 			} );

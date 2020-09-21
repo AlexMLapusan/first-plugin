@@ -25,10 +25,10 @@ class Dash_Adder_Rest {
 	 * @return string[] test message
 	 */
 	public static function al_da_change_state( $request ) {
-		update_option( 'dash-adder-state', $request->get_param( 'state' ) );
+		update_option( 'dash-adder-state', $request->get_param( 'plugin_state' ) );
 		update_option( 'dash-adder-special-word', $request->get_param( 'special_word' ) );
 
-		return array( 'message' => 'state: ' . $request->get_param( 'state' ) . ' special_word: ' . $request->get_param( 'special_word' ) );
+		return array( 'message' => 'state: ' . $request->get_param( 'plugin_state' ) . ' special_word: ' . $request->get_param( 'special_word' ) );
 	}
 }
 

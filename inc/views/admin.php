@@ -19,11 +19,3 @@
 		<button id="save-settings">Save</button>
 	</div>
 </script>
-
-<!--//cum sa adaugi scripturi in pagina (enqueue script)-->
-<!--//cum sa localizezi informatii din php in js (localize script)-->
-<!--//moldel la change trebuie sa salveze optiunea-->
-<!--//register route in WP-->
-<!--//afisare cu template + backbone view-->
-<!--//var 1- informatia din model o primim din php de la inceput cu localize (II)-->
-<!--//var 2- la page load modelul isi face fetch si aduce informatia din ajax-->
