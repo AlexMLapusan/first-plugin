@@ -1,5 +1,6 @@
 ( function ( $ ) {
 
+	/todo remove console.logs in JS
 	console.log( dash_adder.settings );
 
 	let model = new Backbone.Model( dash_adder.settings );
@@ -23,11 +24,13 @@
 		saveSettings: function () {
 
 			$.ajax( {
-				method: 'GET',
-				url: dash_adder.rest_url + '?state=' + this.model.get( 'plugin_state' ) + '&special_word=' + this.model.get( 'special_word' ),
-			} ).success(function (  ){
-				alert("Settings saved");
-			});
+				method: 'POST',
+				url: dash_adder.rest_url,
+				data:
+					{'test': 'aaa'}, //todo re-add 'state' and 'special_word'
+			} ).success( function () {
+				alert( "Settings saved" );
+			} );
 		}
 	} )
 
