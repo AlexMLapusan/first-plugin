@@ -1,6 +1,6 @@
 ( function ( $ ) {
 
-	/todo remove console.logs in JS
+	//todo remove console.logs in JS
 	console.log( dash_adder.settings );
 
 	let model = new Backbone.Model( dash_adder.settings );
