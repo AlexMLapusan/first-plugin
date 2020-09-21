@@ -18,7 +18,7 @@
 			'click #save-settings': 'saveSettings',
 		},
 		handleChange: function ( event ) {
-			this.model.set( $(event.target).attr('model_attr_name'), $(event.target).val() );
+			this.model.set( $(event.target).attr('data-model_attr_name'), $(event.target).val() );
 		},
 		saveSettings: function () {
 

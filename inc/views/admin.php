@@ -6,14 +6,14 @@
 <script id="custom-template" type="text/html">
 
 	<div>
-		<input model_attr_name = "plugin_state" class="state" id="dash-adder-on" <%= option === 'on'? 'checked' : '' %> type="radio" name="dash-adder-state" value="on">
+		<input data-model_attr_name = "plugin_state" class="state" id="dash-adder-on" <%= option === 'on'? 'checked' : '' %> type="radio" name="dash-adder-state" value="on">
 		<label for="dash-adder-on">ON</label>
-		<input model_attr_name = "plugin_state" class="state" id="dash-adder-off" <%= option === 'on'? '' : 'checked' %> type="radio" name="dash-adder-state" value="off">
+		<input data-model_attr_name = "plugin_state" class="state" id="dash-adder-off" <%= option === 'on'? '' : 'checked' %> type="radio" name="dash-adder-state" value="off">
 		<label for="dash-adder-off">OFF</label><br/>
 	</div>
 	<div>
 		<label for="special-word">Special word: </label>
-		<input model_attr_name = "special-word" id="special-word"  type="text" name="special-word" value=<%= special_word %> >
+		<input data-model_attr_name = "special_word" id="special-word"  type="text" name="special-word" value=<%= special_word %> >
 	</div>
 	<div>
 		<button id="save-settings">Save</button>
