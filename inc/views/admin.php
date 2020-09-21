@@ -16,10 +16,10 @@
 		<input data-model_attr_name = "special_word" id="special-word"  type="text" name="special-word" value=<%= special_word %> >
 	</div>
 	<div>
-		<button id="save-settings">Save</button>
-	</div>
-	<div>
 		<label for="color-picker">Header Color: </label>
 		<input data-model_attr_name = "header_color" id="header_color"  type="text" name="color-picker" >
+	</div>
+	<div>
+		<button id="save-settings">Save</button>
 	</div>
 </script>

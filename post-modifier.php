@@ -25,6 +25,7 @@ class Main {
 
 		add_action( 'wp_enqueue_scripts', 'al_enqueue_scripts' );
 
+		add_action( 'wp_head', 'al_alter_content_color' );
 	}
 
 	public function init() {

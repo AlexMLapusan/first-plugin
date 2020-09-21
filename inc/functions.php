@@ -72,4 +72,13 @@ function al_add_menu_item() {
 	add_menu_page( 'Post modifier', 'Post modifier', 'administrator', 'al_da_settings', 'al_display_page', 'https://api.iconify.design/bi:dash-circle-fill.svg?color=%23FFF' );
 }
 
+function al_alter_content_color() {
+	//todo use post_class to add an additional class to the head/body and set the color properly
+	echo '<style>
+		#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu {
+			background: #a73fe0;
+		}
+	</style>';
+}
+
 
