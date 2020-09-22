@@ -1,11 +1,13 @@
 <?php
 
-require_once 'setup/settings.php';
+require_once 'classes/PostModifierSettings.php';
 
 function al_enqueue_scripts() {
+	$settings = PostModifierSettings::getInstance();
+
 	wp_enqueue_script( 'al-main', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/main.js', array( 'wp-api' ), false, true );
 	wp_localize_script( 'al-main', 'post_modifier', array(
-		'settings' => $GLOBALS['settings']->getSettings(),
+		'settings' => $settings->getSettings(),
 		'rest_url' => get_rest_url( get_current_blog_id(), 'post_modifier/v1/save_settings' ),
 	) );
 
@@ -26,9 +28,10 @@ function al_enqueue_scripts() {
  */
 function al_add_dashes( $title ) {
 
-	if ( $GLOBALS['settings']->getSetting('plugin_state') === 'on' ) {
+	$settings = PostModifierSettings::getInstance();
+	if ( $settings->getSetting('plugin_state') === 'on' ) {
 		if ( in_the_loop() ) {
-			if ( strpos( $title, get_option( 'post_modifier-special-word' ) ) !== false ) {
+			if ( strpos( $title, $settings->getSetting('special_word') ) !== false ) {
 				$addition = '~--';
 			} else {
 				$addition = '--';
@@ -62,7 +65,8 @@ function al_add_menu_item() {
 }
 
 function al_alter_content_color() {
-	if ( $GLOBALS['settings']->getSetting('plugin_state') === 'on' ) {
+	$settings = PostModifierSettings::getInstance();
+	if ( $settings->getSetting('plugin_state') === 'on' ) {
 		echo '<style>
 		.custom-header_color{
 			color: #' . get_option( 'content_color' ) . ';

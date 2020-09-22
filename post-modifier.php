@@ -5,10 +5,6 @@ Plugin Name: Post modifier
 Version: 1.0
 */
 
-require_once 'inc/setup/settings.php';
-
-$GLOBALS['settings'] = new PostModifierSettings();
-
 class Main {
 
 	private function includes() {
