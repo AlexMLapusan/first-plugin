@@ -28,9 +28,12 @@ class Post_Modifier_Rest {
 		update_option( 'post-modifier-state', $request->get_param( 'plugin_state' ) );
 		update_option( 'post-modifier-special-word', $request->get_param( 'special_word' ) );
 		update_option( 'post-modifier-header-color', $request->get_param( 'header_color' ) );
+		update_option( 'post-modifier-content-color', $request->get_param( 'content_color' ) );
 
-		return array( 'message' => 'state: ' . $request->get_param( 'plugin_state' ) . ' special_word: ' . $request->get_param( 'special_word' ) .
-		                           'header_color: ' . $request->get_param( 'header_color' ));
+		return array(
+			'message' => 'state: ' . $request->get_param( 'plugin_state' ) . ' special_word: ' . $request->get_param( 'special_word' ) .
+			             'header_color: ' . $request->get_param( 'header_color' ) . 'header_color: ' . $request->get_param( 'content_color' ),
+		);
 	}
 }
 

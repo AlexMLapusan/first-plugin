@@ -19,6 +19,8 @@ class Main {
 
 		add_filter( 'the_title', 'al_add_dashes' );
 
+		add_filter( 'post_class', 'al_add_post_class');
+
 		add_action( 'admin_menu', 'al_add_menu_item' );
 
 		add_action( 'admin_enqueue_scripts', 'al_enqueue_scripts' );

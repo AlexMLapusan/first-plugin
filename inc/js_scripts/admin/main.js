@@ -9,6 +9,9 @@
 			$( '#header_color' ).spectrum( {
 				color: '#' + this.model.get( 'header_color' )
 			} );
+			$( '#content_color' ).spectrum( {
+				color: '#' + this.model.get( 'content_color' )
+			} );
 		},
 		render: function () {
 			const _html = $( "#custom-template" ).html();
@@ -16,7 +19,7 @@
 		},
 		events: {
 			'change .state, #special-word ': 'handleChange',
-			'change #header_color': 'handleColorChange',
+			'change .color-picker': 'handleColorChange',
 			'click #save-settings': 'saveSettings',
 		},
 		handleChange: function ( event ) {
@@ -25,6 +28,7 @@
 		handleColorChange: function ( event ) {
 			this.model.set( $( event.target ).attr( 'data-model_attr_name' ), $( event.target ).spectrum( "get" ).toHex() );
 			console.log( this.model.get( 'header_color' ) );
+			console.log( this.model.get( 'content_color' ) );
 		},
 		saveSettings: function () {
 
