@@ -5,6 +5,10 @@ Plugin Name: Post modifier
 Version: 1.0
 */
 
+require_once 'inc/setup/settings.php';
+
+$GLOBALS['settings'] = new PostModifierSettings();
+
 class Main {
 
 	private function includes() {
@@ -14,8 +18,6 @@ class Main {
 	private function hooks() {
 
 		add_action( 'rest_api_init', 'al_rest_api_init' );
-
-		add_action( 'admin_init', 'al_register_post_modifier_options' );
 
 		add_filter( 'the_title', 'al_add_dashes' );
 

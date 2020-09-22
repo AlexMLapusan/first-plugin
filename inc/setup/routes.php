@@ -14,7 +14,7 @@ class Post_Modifier_Rest {
 	public function register_routes() {
 		register_rest_route( static::$namespace, static::$route, array(
 			'methods'             => WP_REST_Server::CREATABLE,
-			'callback'            => array( 'post_modifier_Rest', 'al_da_change_state' ),
+			'callback'            => array( 'post_modifier_Rest', 'al_change_settings' ),
 			'permission_callback' => '__return_true',
 		) );
 	}
@@ -24,15 +24,15 @@ class Post_Modifier_Rest {
 	 *
 	 * @return string[] test message
 	 */
-	public static function al_da_change_state( $request ) {
-		update_option( 'post-modifier-state', $request->get_param( 'plugin_state' ) );
-		update_option( 'post-modifier-special-word', $request->get_param( 'special_word' ) );
-		update_option( 'post-modifier-header-color', $request->get_param( 'header_color' ) );
-		update_option( 'post-modifier-content-color', $request->get_param( 'content_color' ) );
+	public static function al_change_settings( $request ) {
+
+		foreach ( $request->get_params() as $name => $value ) {
+			$GLOBALS['settings']->updateSetting($name, $value);
+		}
 
 		return array(
-			'message' => 'state: ' . $request->get_param( 'plugin_state' ) . ' special_word: ' . $request->get_param( 'special_word' ) .
-			             'header_color: ' . $request->get_param( 'header_color' ) . 'header_color: ' . $request->get_param( 'content_color' ),
+			'message' => 'state: ' . $GLOBALS['settings']->getSetting( 'plugin_state' ) . ' special_word: ' . $GLOBALS['settings']->getSetting( 'special_word' ) .
+			             'header_color: ' . $GLOBALS['settings']->getSetting( 'header_color' ) . 'content_color: ' . $GLOBALS['settings']->getSetting( 'content_color' ),
 		);
 	}
 }
