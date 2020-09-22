@@ -27,12 +27,12 @@ class Post_Modifier_Rest {
 	public static function al_change_settings( $request ) {
 
 		foreach ( $request->get_params() as $name => $value ) {
-			PostModifierSettings::getInstance()->updateSetting($name, $value);
+			Post_Modifier_Settings::getInstance()->updateSetting($name, $value);
 		}
 
 		return array(
-			'message' => 'state: ' . PostModifierSettings::getInstance()->getSetting( 'plugin_state' ) . ' special_word: ' . PostModifierSettings::getInstance()->getSetting( 'special_word' ) .
-			             'header_color: ' . PostModifierSettings::getInstance()->getSetting( 'header_color' ) . 'content_color: ' . PostModifierSettings::getInstance()->getSetting( 'content_color' ),
+			'message' => 'state: ' . Post_Modifier_Settings::getInstance()->getSetting( 'plugin_state' ) . ' special_word: ' . Post_Modifier_Settings::getInstance()->getSetting( 'special_word' ) .
+			             'header_color: ' . Post_Modifier_Settings::getInstance()->getSetting( 'header_color' ) . 'content_color: ' . Post_Modifier_Settings::getInstance()->getSetting( 'content_color' ),
 		);
 	}
 }

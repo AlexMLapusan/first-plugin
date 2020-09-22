@@ -1,9 +1,9 @@
 <?php
 
-require_once 'classes/PostModifierSettings.php';
+require_once 'classes/class-post-modifier_class.php';
 
 function al_enqueue_scripts() {
-	$settings = PostModifierSettings::getInstance();
+	$settings = Post_Modifier_Settings::getInstance();
 
 	wp_enqueue_script( 'al-main', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/main.js', array( 'wp-api' ), false, true );
 	wp_localize_script( 'al-main', 'post_modifier', array(
@@ -28,7 +28,7 @@ function al_enqueue_scripts() {
  */
 function al_add_dashes( $title ) {
 
-	$settings = PostModifierSettings::getInstance();
+	$settings = Post_Modifier_Settings::getInstance();
 	if ( $settings->getSetting('plugin_state') === 'on' ) {
 		if ( in_the_loop() ) {
 			if ( strpos( $title, $settings->getSetting('special_word') ) !== false ) {
@@ -48,7 +48,7 @@ function al_add_dashes( $title ) {
  * Register REST Routes
  */
 function al_rest_api_init() {
-	require_once __DIR__ . '/setup/routes.php';
+	require_once __DIR__ . '/setup/class-post-modifier-rest.php';
 }
 
 function al_display_page() {
@@ -65,7 +65,7 @@ function al_add_menu_item() {
 }
 
 function al_alter_content_color() {
-	$settings = PostModifierSettings::getInstance();
+	$settings = Post_Modifier_Settings::getInstance();
 	if ( $settings->getSetting('plugin_state') === 'on' ) {
 		echo '<style>
 		.custom-header_color{

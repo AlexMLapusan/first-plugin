@@ -1,8 +1,9 @@
 <?php
-trait Settings_Trait {
+
+trait Settings {
 	protected static $instance = null;
 	/**
-	 * PostModifierSettings constructor.
+	 * Post_Modifier_Settings constructor.
 	 *
 	 * @param array $settings
 	 */
@@ -23,31 +24,4 @@ trait Settings_Trait {
 		return self::$instance;
 	}
 
-}
-
-class PostModifierSettings{
-	private $settings = [];
-
-	use Settings_Trait;
-
-	/**
-	 * @param $settingName string
-	 *
-	 * @return string
-	 */
-	public function getSetting( $settingName ) {
-		return $this->settings[ $settingName ];
-	}
-
-	/**
-	 * @param array $settings
-	 */
-	public function setSettings( $settings ) {
-		$this->settings = $settings;
-	}
-
-	public function updateSetting( $name, $value ) {
-		$settings[$name] = $value;
-		update_option( $name, $value );
-	}
 }
