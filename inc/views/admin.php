@@ -1,4 +1,4 @@
-<h2>Dash adder settings</h2>
+<h2>Post Settings</h2>
 <div class="post_modifier-settings">
 
 </div>
@@ -13,7 +13,7 @@
 	</div>
 	<div>
 		<label for="special-word">Special word: </label>
-		<input data-model_attr_name="special_word" id="special-word" type="text" name="special-word" value=<%= special_word %> >
+		<input data-model_attr_name="special_word" id="special-word" type="text" name="special-word" value="<%= special_word %>" >
 	</div>
 	<div>
 		<label for="header-color-picker">Header color: </label>
@@ -23,6 +23,11 @@
 		<label for="content-color-picker">Post text color: </label>
 		<input data-model_attr_name="content_color" class="color-picker" id="content_color" type="text" name="content-color-picker">
 	</div>
+	<div>
+		<label for="custom_date_format">Date format: </label>
+		<input data-model_attr_name="custom_date_format" id="custom_date_format" type="text" name="custom_date_format" value="<%= date_format %>">
+	</div>
+
 	<div>
 		<button id="save-settings">Save</button>
 	</div>

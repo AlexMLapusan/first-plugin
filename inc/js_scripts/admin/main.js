@@ -15,10 +15,14 @@
 		},
 		render: function () {
 			const _html = $( "#custom-template" ).html();
-			this.$el.html( _.template( _html )( {'option': this.model.get( 'plugin_state' ), 'special_word': this.model.get( 'special_word' )} ) );
+			this.$el.html( _.template( _html )( {
+				'option': this.model.get( 'plugin_state' ),
+				'special_word': this.model.get( 'special_word' ),
+				'date_format': this.model.get( 'custom_date_format' )
+			} ) );
 		},
 		events: {
-			'change .state, #special-word ': 'handleChange',
+			'change .state, #special-word, #custom_date_format': 'handleChange',
 			'change .color-picker': 'handleColorChange',
 			'click #save-settings': 'saveSettings',
 		},
@@ -31,7 +35,6 @@
 			console.log( this.model.get( 'content_color' ) );
 		},
 		saveSettings: function () {
-
 			$.ajax( {
 				method: 'POST',
 				url: post_modifier.rest_url,

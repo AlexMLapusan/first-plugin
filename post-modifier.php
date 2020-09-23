@@ -17,7 +17,11 @@ class Main {
 
 		add_filter( 'the_title', 'al_add_dashes' );
 
-		add_filter( 'post_class', 'al_add_post_class');
+		add_filter( 'get_the_time', 'al_format_date' );
+
+		add_filter( 'the_date', 'al_format_date' );
+
+		add_filter( 'post_class', 'al_add_post_class' );
 
 		add_action( 'admin_menu', 'al_add_menu_item' );
 

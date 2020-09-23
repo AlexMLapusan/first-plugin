@@ -27,11 +27,10 @@ function al_enqueue_scripts() {
  * @return string the modified title
  */
 function al_add_dashes( $title ) {
-
 	$settings = Post_Modifier_Settings::getInstance();
-	if ( $settings->getSetting('plugin_state') === 'on' ) {
+	if ( $settings->getSetting( 'plugin_state' ) === 'on' ) {
 		if ( in_the_loop() ) {
-			if ( strpos( $title, $settings->getSetting('special_word') ) !== false ) {
+			if ( strpos( $title, $settings->getSetting( 'special_word' ) ) !== false ) {
 				$addition = '~--';
 			} else {
 				$addition = '--';
@@ -66,7 +65,7 @@ function al_add_menu_item() {
 
 function al_alter_content_color() {
 	$settings = Post_Modifier_Settings::getInstance();
-	if ( $settings->getSetting('plugin_state') === 'on' ) {
+	if ( $settings->getSetting( 'plugin_state' ) === 'on' ) {
 		echo '<style>
 		.custom-header_color{
 			color: #' . get_option( 'content_color' ) . ';
@@ -81,4 +80,13 @@ function al_add_post_class( $classes ) {
 	return $classes;
 }
 
+function al_format_date( $the_date ) {
+	$settings = Post_Modifier_Settings::getInstance();
+	if ( $settings->getSetting( 'plugin_state' ) === 'on' ) {
+		$the_date = ( new DateTime( $the_date ) )->format( $settings->getSetting( 'custom_date_format' ) );
+
+	}
+
+	return $the_date;
+}
 

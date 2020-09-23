@@ -32,7 +32,8 @@ class Post_Modifier_Rest {
 
 		return array(
 			'message' => 'state: ' . Post_Modifier_Settings::getInstance()->getSetting( 'plugin_state' ) . ' special_word: ' . Post_Modifier_Settings::getInstance()->getSetting( 'special_word' ) .
-			             'header_color: ' . Post_Modifier_Settings::getInstance()->getSetting( 'header_color' ) . 'content_color: ' . Post_Modifier_Settings::getInstance()->getSetting( 'content_color' ),
+			             'header_color: ' . Post_Modifier_Settings::getInstance()->getSetting( 'header_color' ) . 'content_color: ' . Post_Modifier_Settings::getInstance()->getSetting( 'content_color' ) .
+			             'header_color: ' . Post_Modifier_Settings::getInstance()->getSetting( 'custom_date_format' ),
 		);
 	}
 }
