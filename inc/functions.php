@@ -53,6 +53,8 @@ function al_rest_api_init() {
 function al_display_page() {
 
 	include_once __DIR__ . '/views/main.php';
+	include_once __DIR__ . '/views/post-content.php';
+	include_once __DIR__ . '/views/post-metadata.php';
 }
 
 function al_register_post_modifier_options() {
@@ -83,8 +85,7 @@ function al_add_post_class( $classes ) {
 function al_format_date( $the_date ) {
 	$settings = Post_Modifier_Settings::getInstance();
 	if ( $settings->getSetting( 'plugin_state' ) === 'on' ) {
-		$the_date = ( new DateTime( $the_date ) )->format( $settings->getSetting( 'custom_date_format' ) );
-
+		$the_date = get_the_date($settings->getSetting( 'custom_date_format' ));
 	}
 
 	return $the_date;

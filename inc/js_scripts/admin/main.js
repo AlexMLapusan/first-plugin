@@ -80,7 +80,4 @@
 	let metadataView = new PostMetadataView( {model: model, el: '.post-metadata-settings'} );
 	let main = new MainView( {model: model, el: '.post_modifier-settings', attributes: {content: contentView, metadata: metadataView,}} );
 
-//	let view = new SettingsViewClass( {model: model, el: '.post_modifier-settings'} )
-//	let mainView = new SettingsViewClass( {model: model, el: '.post_modifier-settings'} )
-
 } )( jQuery );
