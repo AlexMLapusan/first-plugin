@@ -85,7 +85,7 @@ function al_add_post_class( $classes ) {
 function al_format_date( $the_date ) {
 	$settings = Post_Modifier_Settings::getInstance();
 	if ( $settings->getSetting( 'plugin_state' ) === 'on' ) {
-		$the_date = get_the_date($settings->getSetting( 'custom_date_format' ));
+		$the_date = get_the_date( $settings->getSetting( 'custom_date_format' ) );
 	}
 
 	return $the_date;
