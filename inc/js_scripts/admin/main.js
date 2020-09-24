@@ -11,12 +11,11 @@
 			} );
 		},
 		render: function () {
-			const _html = $( '#post-content-template' ).html();
-			this.$el.html( _.template( _html )( {
+			const _html = tpl( 'views/post-content', {
 				'option': this.model.get( 'plugin_state' ),
 				'special_word': this.model.get( 'special_word' ),
-			} ) );
-			console.log( this.$el.html() );
+			} );
+			this.$el.html( _html );
 		},
 		events: {
 			'change .state, #special-word': 'handleChange',
@@ -26,7 +25,7 @@
 			this.model.set( $( event.target ).attr( 'data-model_attr_name' ), $( event.target ).val() );
 		},
 		handleColorChange: function ( event ) {
-			this.model.set( $( event.target ).attr( 'data-model_attr_name' ), $( event.target ).spectrum( "get" ).toHex() );
+			this.model.set( $( event.target ).attr( 'data-model_attr_name' ), $( event.target ).spectrum( 'get' ).toHex() );
 		}
 	} )
 
@@ -35,10 +34,10 @@
 			this.render();
 		},
 		render: function () {
-			const _html = $( "#post-metadata-template" ).html();
-			this.$el.html( _.template( _html )( {
+			const _html = tpl( 'views/post-metadata', {
 				'date_format': this.model.get( 'custom_date_format' )
-			} ) );
+			} );
+			this.$el.html( _html );
 //			console.log(this.$el.html);
 		},
 		events: {
@@ -54,30 +53,30 @@
 			this.render();
 		},
 		render: function () {
-			this.$el.append( this.attributes.content.$el )
-			this.$el.append( this.attributes.metadata.$el )
-			const _html = $( "#main-template" ).html();
-			this.$el.append(_html) ;
+			this.$el.append( this.attributes.content.$el );
+			this.$el.append( this.attributes.metadata.$el );
+			const _html = tpl( 'views/main');
+			this.$el.append( _html );
 		},
 		events: {
 			'click #save-settings': 'saveSettings',
 		},
 		saveSettings: function () {
-			console.log( 'sent' );
-			$.ajax( {
-				method: 'POST',
-				url: post_modifier.rest_url,
-				data: this.model.attributes,
-			} ).success( function () {
-				alert( "Settings saved" );
-			} );
+			model.save();
 		}
 	} );
+	let Model = Backbone.Model.extend({}),
+		Models = Backbone.Collection.extend({
+		model: Model,
+		url: post_modifier.rest_url
+	})
 
-	let model = new Backbone.Model( post_modifier.settings );
-	console.log( $( '.post-content-settings' ) );
-	let contentView = new PostContentView( {model: model, el: '.post-content-settings'} );
-	let metadataView = new PostMetadataView( {model: model, el: '.post-metadata-settings'} );
-	let main = new MainView( {model: model, el: '.post_modifier-settings', attributes: {content: contentView, metadata: metadataView,}} );
+	let modelCollection = new Models(),
+	model = new Model( post_modifier.settings );
+	modelCollection.add(model);
+
+	let contentView = new PostContentView( {model: model, el: '.post-content-settings'} ),
+	metadataView = new PostMetadataView( {model: model, el: '.post-metadata-settings'} ),
+	main = new MainView( {model: model, el: '.post_modifier-settings', attributes: {content: contentView, metadata: metadataView,}} );
 
 } )( jQuery );

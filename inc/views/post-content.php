@@ -1,4 +1,4 @@
-<script id="post-content-template" type="text/html">
+<script id="views-post-content" type="text/html">
 	<div>
 		<input data-model_attr_name="plugin_state" class="state" id="post-modifier-on" <%= option === 'on'? 'checked' : '' %> type="radio" name="post_modifier-state" value="on">
 		<label for="post_modifier-on">ON</label>

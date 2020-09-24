@@ -2,9 +2,15 @@
 
 require_once 'classes/class-post-modifier_class.php';
 
+function getSetting( $name ) {
+	$settings = Post_Modifier_Settings::getInstance();
+	return $settings->getSetting( $name );
+}
+
 function al_enqueue_scripts() {
 	$settings = Post_Modifier_Settings::getInstance();
 
+	wp_enqueue_script( 'al-utils', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/utils.js', array( 'wp-api' ), false, true );
 	wp_enqueue_script( 'al-main', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/main.js', array( 'wp-api' ), false, true );
 	wp_localize_script( 'al-main', 'post_modifier', array(
 		'settings' => $settings->getSettings(),
@@ -27,10 +33,10 @@ function al_enqueue_scripts() {
  * @return string the modified title
  */
 function al_add_dashes( $title ) {
-	$settings = Post_Modifier_Settings::getInstance();
-	if ( $settings->getSetting( 'plugin_state' ) === 'on' ) {
+
+	if ( getSetting('plugin_state') === 'on' ) {
 		if ( in_the_loop() ) {
-			if ( strpos( $title, $settings->getSetting( 'special_word' ) ) !== false ) {
+			if ( strpos( $title, getSetting( 'special_word' ) ) !== false ) {
 				$addition = '~--';
 			} else {
 				$addition = '--';
@@ -66,8 +72,7 @@ function al_add_menu_item() {
 }
 
 function al_alter_content_color() {
-	$settings = Post_Modifier_Settings::getInstance();
-	if ( $settings->getSetting( 'plugin_state' ) === 'on' ) {
+	if ( getSetting( 'plugin_state' ) === 'on' ) {
 		echo '<style>
 		.custom-header_color{
 			color: #' . get_option( 'content_color' ) . ';
@@ -83,9 +88,8 @@ function al_add_post_class( $classes ) {
 }
 
 function al_format_date( $the_date ) {
-	$settings = Post_Modifier_Settings::getInstance();
-	if ( $settings->getSetting( 'plugin_state' ) === 'on' ) {
-		$the_date = get_the_date( $settings->getSetting( 'custom_date_format' ) );
+	if ( getSetting( 'plugin_state' ) === 'on' ) {
+		$the_date = get_the_date( getSetting( 'custom_date_format' ) );
 	}
 
 	return $the_date;

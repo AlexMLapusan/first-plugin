@@ -9,7 +9,7 @@
 
 </div>
 
-<script id="main-template" type="text/html">
+<script id="views-main" type="text/html">
 	<div>
 		<button id="save-settings">Save</button>
 	</div>
