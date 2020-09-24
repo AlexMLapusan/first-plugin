@@ -1,4 +1,20 @@
-.post_modifier-settings{
+.post-modifier-settings{
     display: flex;
     flex-direction: column;
+    grid-column: 1;
+}
+
+.live-preview-container{
+    grid-column: 3;
+}
+
+.actual-preview{
+    width: 400px;
+    height: 400px;
+    background: #FFF;
+}
+
+.main-wrapper{
+    display: grid;
+    grid-template-columns: 30% 10% 30%;
 }

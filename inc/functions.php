@@ -61,6 +61,7 @@ function al_display_page() {
 	include_once __DIR__ . '/views/main.php';
 	include_once __DIR__ . '/views/post-content.php';
 	include_once __DIR__ . '/views/post-metadata.php';
+	include_once __DIR__ . '/views/live-preview.php';
 }
 
 function al_register_post_modifier_options() {
