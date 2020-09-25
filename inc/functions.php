@@ -3,9 +3,7 @@
 require_once 'classes/class-post-modifier_class.php';
 
 function getSetting( $name ) {
-	$settings = Post_Modifier_Settings::getInstance();
-
-	return $settings->getSetting( $name );
+	return Post_Modifier_Settings::getInstance()->getSetting( $name );
 }
 
 function al_get_random_post() {
@@ -23,7 +21,7 @@ function al_get_random_post() {
 	return array(
 		'rand_post_title'   => get_the_title(),
 		'rand_post_content' => get_the_content(),
-		'rand_post_date' => get_the_date(),
+		'rand_post_date'    => get_the_date(),
 	);
 }
 
@@ -45,6 +43,9 @@ function al_enqueue_scripts() {
 	wp_enqueue_style( 'al-spectrum-style', 'http://bgrins.github.io/spectrum/spectrum.css' );
 }
 
+function is_active() {
+	return getSetting( 'plugin_state' ) === 'on';
+}
 
 /**
  * If the function is called inside The Loop (inside a post) add the dashes.
@@ -55,7 +56,7 @@ function al_enqueue_scripts() {
  */
 function al_add_dashes( $title ) {
 
-	if ( getSetting( 'plugin_state' ) === 'on' ) {
+	if ( is_active() ) {
 		if ( in_the_loop() ) {
 			if ( strpos( $title, getSetting( 'special_word' ) ) !== false ) {
 				$addition = '~--';
@@ -94,7 +95,7 @@ function al_add_menu_item() {
 }
 
 function al_alter_content_color() {
-	if ( getSetting( 'plugin_state' ) === 'on' ) {
+	if ( is_active() ) {
 		echo '<style>
 		.custom-header_color{
 			color: #' . get_option( 'content_color' ) . ';
@@ -110,7 +111,7 @@ function al_add_post_class( $classes ) {
 }
 
 function al_format_date( $the_date ) {
-	if ( getSetting( 'plugin_state' ) === 'on' ) {
+	if ( is_active() ) {
 		$the_date = get_the_date( getSetting( 'custom_date_format' ) );
 	}
 

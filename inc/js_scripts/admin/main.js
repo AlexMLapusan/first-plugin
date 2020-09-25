@@ -3,23 +3,8 @@
 	let PostContentView = Backbone.View.extend( {
 		initialize: function () {
 			this.render();
-			$( '#header_color' ).spectrum( {
-				color: '#' + this.model.get( 'header_color' ),
-				showButtons: false,
-			} ).on( 'dragstop.spectrum', ( e, color ) => {
-				$( e.currentTarget ).spectrum( 'set', color.toHex() );
-//				$( '#post-title' ).css( 'color', '#' + color.toHex() );
-				this.handleColorChange( 'header_color', color.toHex() );
-			} );
-
-			$( '#content_color' ).spectrum( {
-				color: '#' + this.model.get( 'content_color' ),
-				showButtons: false,
-			} ).on( 'dragstop.spectrum', ( e, color ) => {
-				$( e.currentTarget ).spectrum( 'set', color.toHex() );
-//				$( '#post-content' ).css( 'color', '#' + color.toHex() );
-				this.handleColorChange( 'content_color', color.toHex() );
-			} );
+			initSpectrum( 'header_color', this.model, this.handleColorChange );
+			initSpectrum( 'content_color', this.model, this.handleColorChange )
 		},
 		render: function () {
 			const _html = tpl( 'views/post-content', {
@@ -30,13 +15,12 @@
 		},
 		events: {
 			'change .state, #special-word': 'handleChange',
-//			'change .color-picker': 'handleColorChange',
 		},
 		handleChange: function ( event ) {
 			this.model.set( $( event.target ).attr( 'data-model_attr_name' ), $( event.target ).val() );
 		},
-		handleColorChange: function ( attr, color ) {
-			this.model.set( attr, color );
+		handleColorChange: function ( model, attr, color ) {
+			model.set( attr, color );
 		}
 	} )
 
@@ -49,7 +33,6 @@
 				'date_format': this.model.get( 'custom_date_format' )
 			} );
 			this.$el.html( _html );
-//			console.log(this.$el.html);
 		},
 		events: {
 			'change #custom_date_format': 'handleChange',
@@ -104,16 +87,8 @@
 		}
 	} );
 
-	let Model = Backbone.Model.extend( {} ),
-		Models = Backbone.Collection.extend( {
-			model: Model,
-			url: post_modifier.rest_url
-		} );
-
-	let modelCollection = new Models(),
+	let Model = Backbone.Model.extend( {url: post_modifier.rest_url} ),
 		model = new Model( post_modifier.settings );
-
-	modelCollection.add( model );
 
 	let contentView = new PostContentView( {model: model, el: '.post-content-settings'} ),
 		metadataView = new PostMetadataView( {model: model, el: '.post-metadata-settings'} ),
