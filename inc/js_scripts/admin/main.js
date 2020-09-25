@@ -3,8 +3,18 @@
 	let PostContentView = Backbone.View.extend( {
 		initialize: function () {
 			this.render();
-			initSpectrum( 'header_color', this.model, this.handleColorChange );
-			initSpectrum( 'content_color', this.model, this.handleColorChange )
+			initSpectrum( {
+				target: $( '#header_color' ),
+				color: this.model.get( 'header_color' )
+			}, ( color ) => {
+				this.handleColorChange( 'header_color', color );
+			} );
+			initSpectrum( {
+				target: $( '#content_color' ),
+				color: this.model.get( 'content_color' )
+			}, ( color ) => {
+				this.handleColorChange( 'content_color', color );
+			} )
 		},
 		render: function () {
 			const _html = tpl( 'views/post-content', {
@@ -19,8 +29,8 @@
 		handleChange: function ( event ) {
 			this.model.set( $( event.target ).attr( 'data-model_attr_name' ), $( event.target ).val() );
 		},
-		handleColorChange: function ( model, attr, color ) {
-			model.set( attr, color );
+		handleColorChange: function ( attr, color ) {
+			this.model.set( attr, color );
 		}
 	} )
 

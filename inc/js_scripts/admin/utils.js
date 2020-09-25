@@ -14,12 +14,13 @@ function tpl( templatePath, options ) {
 	return _.template( _html );
 }
 
-function initSpectrum( identifier, model, callback ) {
-	jQuery( '#' + identifier ).spectrum( {
-		color: '#' + model.get(identifier),
+function initSpectrum( options, callback ) {
+	options.target.spectrum( {
+		color: options.color,
 		showButtons: false,
 	} ).on( 'dragstop.spectrum', ( e, color ) => {
 		jQuery( e.currentTarget ).spectrum( 'set', color.toHex() );
-		callback( model, identifier, color.toHex() );
+		callback(color.toHex());
+
 	} );
 }
