@@ -4,9 +4,9 @@
 		<%= post_date %>
 	</div>
 
-	<div id="post-title">
+	<h2 id="post-title">
 		<%= post_title %>
-	</div>
+	</h2>
 
 	<div id="post-content">
 		<%= post_content %>

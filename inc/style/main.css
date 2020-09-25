@@ -14,6 +14,12 @@
     background: #FFF;
 }
 
+.actual-preview{
+    width: 400px;
+    height: 400px;
+    background: #FFF;
+}
+
 .main-wrapper{
     display: grid;
     grid-template-columns: 30% 10% 30%;

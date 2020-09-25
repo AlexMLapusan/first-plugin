@@ -4,16 +4,22 @@
 		initialize: function () {
 			this.render();
 			$( '#header_color' ).spectrum( {
-				color: '#' + this.model.get( 'header_color' )
-			} ).on( "dragstop.spectrum", function ( e, color ) {
-				$( "#post-title" ).css( 'color', '#' + color.toHex() );
+				color: '#' + this.model.get( 'header_color' ),
+				showButtons: false,
+			} ).on( 'dragstop.spectrum', ( e, color ) => {
+				$(e.currentTarget).spectrum('set', color.toHex());
+//				$( '#post-title' ).css( 'color', '#' + color.toHex() );
+				this.handleColorChange('header_color', color.toHex());
 			} );
-			;
+
 			$( '#content_color' ).spectrum( {
-				color: '#' + this.model.get( 'content_color' )
-			} ).on( "dragstop.spectrum", function ( e, color ) {
-				$( "#post-content" ).css( 'color', '#' + color.toHex() );
-			} );;
+				color: '#' + this.model.get( 'content_color' ),
+				showButtons: false,
+			} ).on( 'dragstop.spectrum',  ( e, color ) => {
+				$(e.currentTarget).spectrum('set', color.toHex());
+//				$( '#post-content' ).css( 'color', '#' + color.toHex() );
+				this.handleColorChange('content_color', color.toHex());
+			} );
 		},
 		render: function () {
 			const _html = tpl( 'views/post-content', {
@@ -24,13 +30,13 @@
 		},
 		events: {
 			'change .state, #special-word': 'handleChange',
-			'change .color-picker': 'handleColorChange',
+//			'change .color-picker': 'handleColorChange',
 		},
 		handleChange: function ( event ) {
 			this.model.set( $( event.target ).attr( 'data-model_attr_name' ), $( event.target ).val() );
 		},
-		handleColorChange: function ( event ) {
-			this.model.set( $( event.target ).attr( 'data-model_attr_name' ), $( event.target ).spectrum( 'get' ).toHex() );
+		handleColorChange: function ( attr, color ) {
+			this.model.set( attr, color );
 		}
 	} )
 
@@ -74,12 +80,24 @@
 	let PreviewView = Backbone.View.extend( {
 		initialize: function () {
 			this.render();
+			this.setTitleColor(this.model.get('header_color'));
+			this.setContentColor(this.model.get('content_color'));
+			this.model.on('change', ()=>{
+				this.setTitleColor(this.model.get('header_color'));
+				this.setContentColor(this.model.get('content_color'));
+			})
 		},
 		render: function () {
 			const _html = tpl( 'views/live-preview', {post_date: 'date', post_title: 'Title', post_content: 'content'} );
 			this.$el.find( '.actual-preview' ).append( _html );
 			console.log( this.$el.find( '.actual-preview' ).html() );
 		},
+		setTitleColor: function ( color ){
+			this.$el.find('#post-title').css('color', '#' + color);
+		},
+		setContentColor: function ( color ){
+			this.$el.find('#post-content').css('color', '#' + color);
+		}
 	} );
 
 	let Model = Backbone.Model.extend( {} ),
@@ -96,6 +114,6 @@
 	let contentView = new PostContentView( {model: model, el: '.post-content-settings'} ),
 		metadataView = new PostMetadataView( {model: model, el: '.post-metadata-settings'} ),
 		settings = new SettingsView( {model: model, el: '.post-modifier-settings', attributes: {content: contentView, metadata: metadataView,}} ),
-		preview = new PreviewView( {el: '.live-preview-container'} );
+		preview = new PreviewView( {model: model, el: '.live-preview-container'} );
 
 } )( jQuery );
