@@ -7,18 +7,18 @@
 				color: '#' + this.model.get( 'header_color' ),
 				showButtons: false,
 			} ).on( 'dragstop.spectrum', ( e, color ) => {
-				$(e.currentTarget).spectrum('set', color.toHex());
+				$( e.currentTarget ).spectrum( 'set', color.toHex() );
 //				$( '#post-title' ).css( 'color', '#' + color.toHex() );
-				this.handleColorChange('header_color', color.toHex());
+				this.handleColorChange( 'header_color', color.toHex() );
 			} );
 
 			$( '#content_color' ).spectrum( {
 				color: '#' + this.model.get( 'content_color' ),
 				showButtons: false,
-			} ).on( 'dragstop.spectrum',  ( e, color ) => {
-				$(e.currentTarget).spectrum('set', color.toHex());
+			} ).on( 'dragstop.spectrum', ( e, color ) => {
+				$( e.currentTarget ).spectrum( 'set', color.toHex() );
 //				$( '#post-content' ).css( 'color', '#' + color.toHex() );
-				this.handleColorChange('content_color', color.toHex());
+				this.handleColorChange( 'content_color', color.toHex() );
 			} );
 		},
 		render: function () {
@@ -80,23 +80,27 @@
 	let PreviewView = Backbone.View.extend( {
 		initialize: function () {
 			this.render();
-			this.setTitleColor(this.model.get('header_color'));
-			this.setContentColor(this.model.get('content_color'));
-			this.model.on('change', ()=>{
-				this.setTitleColor(this.model.get('header_color'));
-				this.setContentColor(this.model.get('content_color'));
-			})
+			this.setTitleColor( this.model.get( 'header_color' ) );
+			this.setContentColor( this.model.get( 'content_color' ) );
+			this.model.on( 'change', () => {
+				this.setTitleColor( this.model.get( 'header_color' ) );
+				this.setContentColor( this.model.get( 'content_color' ) );
+			} )
 		},
 		render: function () {
-			const _html = tpl( 'views/live-preview', {post_date: 'date', post_title: 'Title', post_content: 'content'} );
+			const _html = tpl( 'views/live-preview', {
+				post_date: post_modifier.preview.rand_post_date,
+				post_title: post_modifier.preview.rand_post_title,
+				post_content: post_modifier.preview.rand_post_content
+			} );
 			this.$el.find( '.actual-preview' ).append( _html );
 			console.log( this.$el.find( '.actual-preview' ).html() );
 		},
-		setTitleColor: function ( color ){
-			this.$el.find('#post-title').css('color', '#' + color);
+		setTitleColor: function ( color ) {
+			this.$el.find( '#post-title' ).css( 'color', '#' + color );
 		},
-		setContentColor: function ( color ){
-			this.$el.find('#post-content').css('color', '#' + color);
+		setContentColor: function ( color ) {
+			this.$el.find( '#post-content' ).css( 'color', '#' + color );
 		}
 	} );
 

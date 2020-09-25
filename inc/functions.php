@@ -4,7 +4,27 @@ require_once 'classes/class-post-modifier_class.php';
 
 function getSetting( $name ) {
 	$settings = Post_Modifier_Settings::getInstance();
+
 	return $settings->getSetting( $name );
+}
+
+function al_get_random_post() {
+	$args      = array(
+		'post_type'      => 'post',
+		'post_status'    => 'publish',
+		'orderby'        => 'rand',
+		'posts_per_page' => 1,
+	);
+	$the_query = new WP_Query( $args );
+	if ( $the_query->have_posts() ) {
+		$the_query->the_post();
+	}
+
+	return array(
+		'rand_post_title'   => get_the_title(),
+		'rand_post_content' => get_the_content(),
+		'rand_post_date' => get_the_date(),
+	);
 }
 
 function al_enqueue_scripts() {
@@ -14,6 +34,7 @@ function al_enqueue_scripts() {
 	wp_enqueue_script( 'al-main', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/main.js', array( 'wp-api' ), false, true );
 	wp_localize_script( 'al-main', 'post_modifier', array(
 		'settings' => $settings->getSettings(),
+		'preview'  => al_get_random_post(),
 		'rest_url' => get_rest_url( get_current_blog_id(), 'post_modifier/v1/save_settings' ),
 	) );
 
@@ -34,7 +55,7 @@ function al_enqueue_scripts() {
  */
 function al_add_dashes( $title ) {
 
-	if ( getSetting('plugin_state') === 'on' ) {
+	if ( getSetting( 'plugin_state' ) === 'on' ) {
 		if ( in_the_loop() ) {
 			if ( strpos( $title, getSetting( 'special_word' ) ) !== false ) {
 				$addition = '~--';
