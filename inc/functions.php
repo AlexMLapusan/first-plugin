@@ -6,6 +6,10 @@ function getSetting( $name ) {
 	return Post_Modifier_Settings::getInstance()->getSetting( $name );
 }
 
+function get_moment_format($format){
+
+}
+
 function al_get_random_post() {
 	$args      = array(
 		'post_type'      => 'post',
@@ -21,22 +25,22 @@ function al_get_random_post() {
 	return array(
 		'rand_post_title'   => get_the_title(),
 		'rand_post_content' => get_the_content(),
-		'rand_post_date'    => get_the_date(),
+		'rand_post_date'    => get_the_date("Y-M-j"),
+		'rand_post_date_format' => "Y-M-j"
 	);
 }
 
 function al_enqueue_scripts() {
-	$settings = Post_Modifier_Settings::getInstance();
-
 	wp_enqueue_script( 'al-utils', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/utils.js', array( 'wp-api' ), false, true );
 	wp_enqueue_script( 'al-main', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/main.js', array( 'wp-api' ), false, true );
 	wp_localize_script( 'al-main', 'post_modifier', array(
-		'settings' => $settings->getSettings(),
+		'settings' => Post_Modifier_Settings::getInstance()->getSettings(),
 		'preview'  => al_get_random_post(),
 		'rest_url' => get_rest_url( get_current_blog_id(), 'post_modifier/v1/save_settings' ),
 	) );
 
-	wp_enqueue_script( 'al-spectrum-script', 'http://bgrins.github.io/spectrum/spectrum.js' );
+	wp_enqueue_script( 'al-moment-script', 'http://bgrins.github.io/spectrum/spectrum.js' );
+	wp_enqueue_script( 'al-spectrum-script', 'https://momentjs.com/downloads/moment-with-locales.min.js' );
 
 	//styles
 	wp_enqueue_style( 'al-main-style', plugin_dir_url( __FILE__ ) . 'style/main.css' );

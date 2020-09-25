@@ -72,22 +72,29 @@
 
 	let PreviewView = Backbone.View.extend( {
 		initialize: function () {
-			this.render();
-			this.setTitleColor( this.model.get( 'header_color' ) );
-			this.setContentColor( this.model.get( 'content_color' ) );
-			this.model.on( 'change', () => {
-				this.setTitleColor( this.model.get( 'header_color' ) );
-				this.setContentColor( this.model.get( 'content_color' ) );
-			} )
-		},
-		render: function () {
+
 			const _html = tpl( 'views/live-preview', {
 				post_date: post_modifier.preview.rand_post_date,
 				post_title: post_modifier.preview.rand_post_title,
 				post_content: post_modifier.preview.rand_post_content
 			} );
 			this.$el.find( '.actual-preview' ).append( _html );
-			console.log( this.$el.find( '.actual-preview' ).html() );
+
+			this.render();
+			this.model.on( 'change:header_color', () => {
+				this.render();
+			} )
+			this.model.on( 'change:content_color', () => {
+				this.render();
+			} )
+			this.model.on( 'change:custom_date_format', () => {
+				let date = moment(post_modifier.preview.rand_post_date, getMomentFormat(post_modifier.preview.rand_post_date_format));
+				
+			} )
+		},
+		render: function () {
+			this.setTitleColor( this.model.get( 'header_color' ) );
+			this.setContentColor( this.model.get( 'content_color' ) );
 		},
 		setTitleColor: function ( color ) {
 			this.$el.find( '#post-title' ).css( 'color', '#' + color );
