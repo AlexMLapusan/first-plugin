@@ -26,9 +26,9 @@ function initSpectrum( options, callback ) {
 }
 
 /**
- * Returns the date format transformed from the wordpress standard format to the moment() format
- * @param format
- * @returns {string}
+ * Returns the date format transformed from the wordpress standard format to the moment.js format
+ * @param format {string} php format
+ * @returns {string} moment.js format
  */
 function getMomentFormat( format ) {
 	let formatMap = {
@@ -84,16 +84,14 @@ function getMomentFormat( format ) {
 			return parseInt( this.format( 'ZZ' ), 10 ) * 36;
 		},
 		c: 'YYYY-MM-DD[T]HH:mm:ssZ',
-		r: 'ddd, DD MMM YYYY HH:mm:ss ZZ',
+		r: 'ddd, DD MMM YYYY HH:mm:ss ZZ    ',
 		U: 'X',
 	}
 
-	let response = "";
-	Array.from( format ).forEach( letter => {
+	return Array.from( format ).map( letter => {
 		if ( formatMap[ letter ] !== undefined ) {
-			letter =  formatMap[ letter ];
+			return formatMap[ letter ];
 		}
-		response += "" + letter;
-	} );
-	return response;
+		return letter;
+	} ).join('');
 }
