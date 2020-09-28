@@ -25,6 +25,11 @@ function initSpectrum( options, callback ) {
 	} );
 }
 
+/**
+ * Returns the date format transformed from the wordpress standard format to the moment() format
+ * @param format
+ * @returns {string}
+ */
 function getMomentFormat( format ) {
 	let formatMap = {
 		d: 'DD',

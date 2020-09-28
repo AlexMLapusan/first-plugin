@@ -88,8 +88,9 @@
 				this.render();
 			} )
 			this.model.on( 'change:custom_date_format', () => {
-				let date = moment(post_modifier.preview.rand_post_date, getMomentFormat(post_modifier.preview.rand_post_date_format));
-				
+				let date = moment( post_modifier.preview.rand_post_date, getMomentFormat( post_modifier.preview.rand_post_date_format ) );
+//				console.log( date.format( getMomentFormat( this.model.get( 'custom_date_format' ) ) ) );
+				this.$el.find('#post-date').html(date.format( getMomentFormat( this.model.get( 'custom_date_format' ) ) ));
 			} )
 		},
 		render: function () {

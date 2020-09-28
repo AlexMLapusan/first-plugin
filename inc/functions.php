@@ -6,7 +6,7 @@ function getSetting( $name ) {
 	return Post_Modifier_Settings::getInstance()->getSetting( $name );
 }
 
-function get_moment_format($format){
+function get_moment_format( $format ) {
 
 }
 
@@ -23,10 +23,10 @@ function al_get_random_post() {
 	}
 
 	return array(
-		'rand_post_title'   => get_the_title(),
-		'rand_post_content' => get_the_content(),
-		'rand_post_date'    => get_the_date("Y-M-j"),
-		'rand_post_date_format' => "Y-M-j"
+		'rand_post_title'       => get_the_title(),
+		'rand_post_content'     => get_the_content(),
+		'rand_post_date'        => get_the_date( getSetting( 'custom_date_format' ) ),
+		'rand_post_date_format' => getSetting( 'custom_date_format' ),
 	);
 }
 

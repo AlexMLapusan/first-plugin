@@ -1,6 +1,6 @@
 <script id="views-live-preview" type="text/html">
 
-	<div id="date">
+	<div id="post-date">
 		<%= post_date %>
 	</div>
 
