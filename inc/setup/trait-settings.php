@@ -11,8 +11,8 @@ trait Settings {
 	 * @param array $settings
 	 */
 	private function __construct(  ) {
-		foreach (Constants::settings_names() as $setting){
-			$this->settings[$setting] = get_option($setting, Constants::settings_defaults()[$setting]);
+		foreach (Constants::settings_defaults() as $name => $default_value){
+			$this->settings[$name] = get_option($name, $default_value);
 		}
 
 	}

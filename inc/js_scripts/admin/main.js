@@ -1,50 +1,110 @@
 ( function ( $ ) {
 
-	let model = new Backbone.Model( post_modifier.settings );
-
-	let SettingsViewClass = Backbone.View.extend( {
+	let PostContentView = Backbone.View.extend( {
 		initialize: function () {
 			this.render();
-			console.log( this.model.attributes );
-			$( '#header_color' ).spectrum( {
-				color: '#' + this.model.get( 'header_color' )
+			initSpectrum( {
+				target: $( '#header_color' ),
+				color: this.model.get( 'header_color' )
+			}, ( color ) => {
+				this.handleColorChange( 'header_color', color );
 			} );
-			$( '#content_color' ).spectrum( {
-				color: '#' + this.model.get( 'content_color' )
-			} );
+			initSpectrum( {
+				target: $( '#content_color' ),
+				color: this.model.get( 'content_color' )
+			}, ( color ) => {
+				this.handleColorChange( 'content_color', color );
+			} )
 		},
 		render: function () {
-			const _html = $( "#custom-template" ).html();
-			this.$el.html( _.template( _html )( {
+			const _html = tpl( 'views/post-content', {
 				'option': this.model.get( 'plugin_state' ),
 				'special_word': this.model.get( 'special_word' ),
-				'date_format': this.model.get( 'custom_date_format' )
-			} ) );
+			} );
+			this.$el.html( _html );
 		},
 		events: {
-			'change .state, #special-word, #custom_date_format': 'handleChange',
-			'change .color-picker': 'handleColorChange',
-			'click #save-settings': 'saveSettings',
+			'change .state, #special-word': 'handleChange',
 		},
 		handleChange: function ( event ) {
 			this.model.set( $( event.target ).attr( 'data-model_attr_name' ), $( event.target ).val() );
 		},
-		handleColorChange: function ( event ) {
-			this.model.set( $( event.target ).attr( 'data-model_attr_name' ), $( event.target ).spectrum( "get" ).toHex() );
-			console.log( this.model.get( 'header_color' ) );
-			console.log( this.model.get( 'content_color' ) );
-		},
-		saveSettings: function () {
-			$.ajax( {
-				method: 'POST',
-				url: post_modifier.rest_url,
-				data: this.model.attributes,
-			} ).success( function () {
-				alert( "Settings saved" );
-			} );
+		handleColorChange: function ( attr, color ) {
+			this.model.set( attr, color );
 		}
 	} )
 
-	let view = new SettingsViewClass( {model: model, el: '.post_modifier-settings'} )
+	let PostMetadataView = Backbone.View.extend( {
+		initialize: function () {
+			this.render();
+		},
+		render: function () {
+			const _html = tpl( 'views/post-metadata', {
+				'date_format': this.model.get( 'custom_date_format' )
+			} );
+			this.$el.html( _html );
+		},
+		events: {
+			'change #custom_date_format': 'handleChange',
+		},
+		handleChange: function ( event ) {
+			this.model.set( $( event.target ).attr( 'data-model_attr_name' ), $( event.target ).val() );
+		}
+	} )
+
+	let SettingsView = Backbone.View.extend( {
+		initialize: function () {
+			this.render();
+		},
+		render: function () {
+			this.$el.append( this.attributes.content.$el );
+			this.$el.append( this.attributes.metadata.$el );
+			const _html = tpl( 'views/main' );
+			this.$el.append( _html );
+		},
+		events: {
+			'click #save-settings': 'saveSettings',
+		},
+		saveSettings: function () {
+			model.save();
+		}
+	} );
+
+	let PreviewView = Backbone.View.extend( {
+		initialize: function () {
+
+			const _html = tpl( 'views/live-preview', {
+				post_date: post_modifier.preview.rand_post_date,
+				post_title: post_modifier.preview.rand_post_title,
+				post_content: post_modifier.preview.rand_post_content
+			} );
+			this.$el.find( '.actual-preview' ).append( _html );
+			this.render();
+			this.model.on( 'change:header_color', this.render.bind( this ) );
+			this.model.on( 'change:content_color', this.render.bind( this ) );
+			this.model.on( 'change:custom_date_format', () => {
+				let date = moment( post_modifier.preview.rand_post_date, getMomentFormat( post_modifier.preview.rand_post_date_format ) );
+				this.$el.find( '#post-date' ).html( date.format( getMomentFormat( this.model.get( 'custom_date_format' ) ) ) );
+			} )
+		},
+		render: function () {
+			this.setTitleColor( this.model.get( 'header_color' ) );
+			this.setContentColor( this.model.get( 'content_color' ) );
+		},
+		setTitleColor: function ( color ) {
+			this.$el.find( '#post-title' ).css( 'color', '#' + color );
+		},
+		setContentColor: function ( color ) {
+			this.$el.find( '#post-content' ).css( 'color', '#' + color );
+		}
+	} );
+
+	let Model = Backbone.Model.extend( {url: post_modifier.rest_url} ),
+		model = new Model( post_modifier.settings );
+
+	let contentView = new PostContentView( {model: model, el: '.post-content-settings'} ),
+		metadataView = new PostMetadataView( {model: model, el: '.post-metadata-settings'} ),
+		settings = new SettingsView( {model: model, el: '.post-modifier-settings', attributes: {content: contentView, metadata: metadataView,}} ),
+		preview = new PreviewView( {model: model, el: '.live-preview-container'} );
 
 } )( jQuery );
