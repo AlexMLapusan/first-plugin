@@ -6,10 +6,6 @@ function getSetting( $name ) {
 	return Post_Modifier_Settings::getInstance()->getSetting( $name );
 }
 
-function get_moment_format( $format ) {
-
-}
-
 function al_get_random_post() {
 	$args      = array(
 		'post_type'      => 'post',
@@ -22,11 +18,13 @@ function al_get_random_post() {
 		$the_query->the_post();
 	}
 
+	$date_format = getSetting( 'custom_date_format' );
+
 	return array(
 		'rand_post_title'       => get_the_title(),
 		'rand_post_content'     => get_the_content(),
-		'rand_post_date'        => get_the_date( getSetting( 'custom_date_format' ) ),
-		'rand_post_date_format' => getSetting( 'custom_date_format' ),
+		'rand_post_date'        => get_the_date( $date_format ),
+		'rand_post_date_format' => $date_format,
 	);
 }
 

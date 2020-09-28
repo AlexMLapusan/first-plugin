@@ -93,5 +93,5 @@ function getMomentFormat( format ) {
 			return formatMap[ letter ];
 		}
 		return letter;
-	} ).join('');
+	} ).join( '' );
 }
