@@ -1,5 +1,29 @@
 ( function ( $ ) {
 
+	let frame = wp.media( {
+		title: 'Select or Upload Media Of Your Chosen Persuasion',
+		button: {
+			text: 'Use this media'
+		},
+		multiple: false  // Set to true to allow multiple files to be selected
+	} );
+
+	frame.on( 'select', () => {
+		let state = frame.state(),
+			selection = state.get( 'selection' );
+		selection.forEach( function ( attachment ) {
+			$.ajax( {
+				type: 'POST',
+				url: post_modifier.image_url,
+				data: {id: attachment.attributes.id},
+				dataType: 'json'
+			} ).done( function ( html ) {
+				console.log( 'response' );
+
+			} );
+		} );
+	} );
+
 	let PostContentView = Backbone.View.extend( {
 		initialize: function () {
 			this.render();
@@ -99,12 +123,24 @@
 		}
 	} );
 
+	let LogoPickerView = Backbone.View.extend( {
+		initialize: function () {
+			this.$el.find( '.logo-picker' ).append( tpl( 'views/logo-picker' ), {} );
+			this.$el.find( '#logo-pick-button' ).click( () => frame.open() );
+		},
+		render: function () {
+		},
+	} );
+
 	let Model = Backbone.Model.extend( {url: post_modifier.rest_url} ),
 		model = new Model( post_modifier.settings );
 
 	let contentView = new PostContentView( {model: model, el: '.post-content-settings'} ),
 		metadataView = new PostMetadataView( {model: model, el: '.post-metadata-settings'} ),
 		settings = new SettingsView( {model: model, el: '.post-modifier-settings', attributes: {content: contentView, metadata: metadataView,}} ),
-		preview = new PreviewView( {model: model, el: '.live-preview-container'} );
+		preview = new PreviewView( {model: model, el: '.live-preview-container'} ),
+		logoPicker = new LogoPickerView( {el: '.site-settings-container'} );
+
+	// Create a new media frame
 
 } )( jQuery );

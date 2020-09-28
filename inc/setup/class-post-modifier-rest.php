@@ -17,6 +17,16 @@ class Post_Modifier_Rest {
 			'callback'            => array( 'post_modifier_Rest', 'al_change_settings' ),
 			'permission_callback' => '__return_true',
 		) );
+
+		register_rest_route( static::$namespace, '/image', array(
+			'methods'             => WP_REST_Server::CREATABLE,
+			'callback'            => array( 'post_modifier_Rest', 'al_get_image' ),
+			'permission_callback' => '__return_true',
+		) );
+	}
+
+	public static function al_get_image( $request ) {
+		echo(wp_get_attachment_image_src($request->get_param('id'))[0]);
 	}
 
 	/**
@@ -27,7 +37,7 @@ class Post_Modifier_Rest {
 	public static function al_change_settings( $request ) {
 
 		foreach ( $request->get_params() as $name => $value ) {
-			Post_Modifier_Settings::getInstance()->updateSetting($name, $value);
+			Post_Modifier_Settings::getInstance()->updateSetting( $name, $value );
 		}
 
 		return array(

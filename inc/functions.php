@@ -29,12 +29,14 @@ function al_get_random_post() {
 }
 
 function al_enqueue_scripts() {
+	wp_enqueue_media();
 	wp_enqueue_script( 'al-utils', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/utils.js', array( 'wp-api' ), false, true );
 	wp_enqueue_script( 'al-main', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/main.js', array( 'wp-api' ), false, true );
 	wp_localize_script( 'al-main', 'post_modifier', array(
 		'settings' => Post_Modifier_Settings::getInstance()->getSettings(),
 		'preview'  => al_get_random_post(),
 		'rest_url' => get_rest_url( get_current_blog_id(), 'post_modifier/v1/save_settings' ),
+		'image_url' => get_rest_url( get_current_blog_id(), 'post_modifier/v1/image' ),
 	) );
 
 	wp_enqueue_script( 'al-moment-script', 'http://bgrins.github.io/spectrum/spectrum.js' );
@@ -86,6 +88,7 @@ function al_display_page() {
 	include_once __DIR__ . '/views/post-content.php';
 	include_once __DIR__ . '/views/post-metadata.php';
 	include_once __DIR__ . '/views/live-preview.php';
+	include_once __DIR__ . '/views/logo-picker.php';
 }
 
 function al_register_post_modifier_options() {

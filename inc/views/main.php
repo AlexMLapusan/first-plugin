@@ -13,6 +13,12 @@
 		<div class="actual-preview">
 		</div>
 	</div>
+
+	<div class="site-settings-container">
+		<h2>Site settings</h2>
+		<div class="logo-picker">
+		</div>
+	</div>
 </div>
 
 
