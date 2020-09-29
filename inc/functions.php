@@ -33,9 +33,9 @@ function al_enqueue_scripts() {
 	wp_enqueue_script( 'al-utils', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/utils.js', array( 'wp-api' ), false, true );
 	wp_enqueue_script( 'al-main', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/main.js', array( 'wp-api' ), false, true );
 	wp_localize_script( 'al-main', 'post_modifier', array(
-		'settings' => Post_Modifier_Settings::getInstance()->getSettings(),
-		'preview'  => al_get_random_post(),
-		'rest_url' => get_rest_url( get_current_blog_id(), 'post_modifier/v1/save_settings' ),
+		'settings'  => Post_Modifier_Settings::getInstance()->getSettings(),
+		'preview'   => al_get_random_post(),
+		'rest_url'  => get_rest_url( get_current_blog_id(), 'post_modifier/v1/save_settings' ),
 		'image_url' => get_rest_url( get_current_blog_id(), 'post_modifier/v1/image' ),
 	) );
 
@@ -59,7 +59,6 @@ function is_active() {
  * @return string the modified title
  */
 function al_add_dashes( $title ) {
-
 	if ( is_active() ) {
 		if ( in_the_loop() ) {
 			if ( strpos( $title, getSetting( 'special_word' ) ) !== false ) {

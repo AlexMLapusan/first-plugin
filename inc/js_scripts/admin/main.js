@@ -1,29 +1,5 @@
 ( function ( $ ) {
 
-	let frame = wp.media( {
-		title: 'Select or Upload Media Of Your Chosen Persuasion',
-		button: {
-			text: 'Use this media'
-		},
-		multiple: false  // Set to true to allow multiple files to be selected
-	} );
-
-	frame.on( 'select', () => {
-		let state = frame.state(),
-			selection = state.get( 'selection' );
-		selection.forEach( function ( attachment ) {
-			$.ajax( {
-				type: 'POST',
-				url: post_modifier.image_url,
-				data: {id: attachment.attributes.id},
-				dataType: 'json'
-			} ).done( function ( html ) {
-				console.log( 'response' );
-
-			} );
-		} );
-	} );
-
 	let PostContentView = Backbone.View.extend( {
 		initialize: function () {
 			this.render();
@@ -132,6 +108,27 @@
 		},
 	} );
 
+	let frame = wp.media( {
+		title: 'Select or Upload Media Of Your Chosen Persuasion',
+		button: {
+			text: 'Use this media'
+		},
+		multiple: false  // Set to true to allow multiple files to be selected
+	} );
+
+	frame.on( 'select', () => {
+		let state = frame.state(),
+			selection = state.get( 'selection' );
+		attachment = selection.first();
+		$.ajax( {
+			type: 'POST',
+			url: post_modifier.image_url + "/" + attachment.attributes.id,
+			dataType: 'json'
+		} ).done( function ( response ) {
+			$("#site-logo").attr('src', response)
+		} );
+	} );
+
 	let Model = Backbone.Model.extend( {url: post_modifier.rest_url} ),
 		model = new Model( post_modifier.settings );
 
@@ -139,8 +136,6 @@
 		metadataView = new PostMetadataView( {model: model, el: '.post-metadata-settings'} ),
 		settings = new SettingsView( {model: model, el: '.post-modifier-settings', attributes: {content: contentView, metadata: metadataView,}} ),
 		preview = new PreviewView( {model: model, el: '.live-preview-container'} ),
-		logoPicker = new LogoPickerView( {el: '.site-settings-container'} );
-
-	// Create a new media frame
-
+		logoPicker = new LogoPickerView( { el: '.site-settings-container'} );
+	
 } )( jQuery );
