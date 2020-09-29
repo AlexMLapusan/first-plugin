@@ -76,7 +76,8 @@
 			const _html = tpl( 'views/live-preview', {
 				post_date: post_modifier.preview.rand_post_date,
 				post_title: post_modifier.preview.rand_post_title,
-				post_content: post_modifier.preview.rand_post_content
+				post_content: post_modifier.preview.rand_post_content,
+				site_logo: post_modifier.settings.site_logo_src
 			} );
 			this.$el.find( '.actual-preview' ).append( _html );
 			this.render();
@@ -137,5 +138,5 @@
 		settings = new SettingsView( {model: model, el: '.post-modifier-settings', attributes: {content: contentView, metadata: metadataView,}} ),
 		preview = new PreviewView( {model: model, el: '.live-preview-container'} ),
 		logoPicker = new LogoPickerView( { el: '.site-settings-container'} );
-	
+
 } )( jQuery );

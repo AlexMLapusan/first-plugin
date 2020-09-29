@@ -28,7 +28,8 @@ class Post_Modifier_Rest {
 	}
 
 	public static function al_get_image( $request ) {
-		echo( json_encode( wp_get_attachment_image_src( $request->get_param( 'id' ) )[0] ) );
+		Post_Modifier_Settings::getInstance()->updateSetting( 'site_logo_src', wp_get_attachment_image_src( $request->get_param( 'id' ) )[0] );
+		echo( json_encode( get_option( 'site_logo_src' ) ) );
 	}
 
 	/**

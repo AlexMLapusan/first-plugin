@@ -12,6 +12,6 @@
 		<%= post_content %>
 	</div>
 
-	<img id="site-logo"/>
+	<img id="site-logo" src="<%= site_logo%>"/>
 
 </script>
