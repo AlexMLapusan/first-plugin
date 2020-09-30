@@ -1,4 +1,4 @@
-<div class = "main-wrapper">
+<div class="main-wrapper">
 	<div class="post-modifier-settings">
 		<h2>Post Settings</h2>
 		<div class="post-content-settings">
@@ -13,14 +13,12 @@
 		<div class="actual-preview">
 		</div>
 	</div>
-
 	<div class="site-settings-container">
 		<h2>Site settings</h2>
 		<div class="logo-picker">
 		</div>
 	</div>
 </div>
-
 
 <script id="views-main" type="text/html">
 	<div>

@@ -82,7 +82,6 @@ function al_rest_api_init() {
 }
 
 function al_display_page() {
-
 	include_once __DIR__ . '/views/main.php';
 	include_once __DIR__ . '/views/post-content.php';
 	include_once __DIR__ . '/views/post-metadata.php';
@@ -98,6 +97,20 @@ function al_add_menu_item() {
 	add_menu_page( 'Post modifier', 'Post modifier', 'administrator', 'al_da_settings', 'al_display_page', 'https://api.iconify.design/bi:dash-circle-fill.svg?color=%23FFF' );
 }
 
+/**
+ * @param $classes
+ *
+ * @return mixed the classes we want to add
+ */
+function al_add_post_class( $classes ) {
+	$classes[] = 'custom-header_color';
+
+	return $classes;
+}
+
+/**
+ * Adds style to the custom class added to the content of a post
+ */
 function al_alter_content_color() {
 	if ( is_active() ) {
 		echo '<style>
@@ -106,12 +119,6 @@ function al_alter_content_color() {
 		}
 		</style>';
 	}
-}
-
-function al_add_post_class( $classes ) {
-	$classes[] = 'custom-header_color';
-
-	return $classes;
 }
 
 function al_format_date( $the_date ) {

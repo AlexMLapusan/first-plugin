@@ -118,9 +118,7 @@
 	} );
 
 	frame.on( 'select', () => {
-		let state = frame.state(),
-			selection = state.get( 'selection' );
-		attachment = selection.first();
+		let attachment = frame.state().get( 'selection' ).first();
 		$.ajax( {
 			type: 'POST',
 			url: post_modifier.image_url + "/" + attachment.attributes.id,
