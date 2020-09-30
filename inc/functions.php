@@ -29,12 +29,14 @@ function al_get_random_post() {
 }
 
 function al_enqueue_scripts() {
+	wp_enqueue_media();
 	wp_enqueue_script( 'al-utils', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/utils.js', array( 'wp-api' ), false, true );
 	wp_enqueue_script( 'al-main', plugin_dir_url( __FILE__ ) . 'js_scripts/admin/main.js', array( 'wp-api' ), false, true );
 	wp_localize_script( 'al-main', 'post_modifier', array(
-		'settings' => Post_Modifier_Settings::getInstance()->getSettings(),
-		'preview'  => al_get_random_post(),
-		'rest_url' => get_rest_url( get_current_blog_id(), 'post_modifier/v1/save_settings' ),
+		'settings'  => Post_Modifier_Settings::getInstance()->getSettings(),
+		'preview'   => al_get_random_post(),
+		'rest_url'  => get_rest_url( get_current_blog_id(), 'post_modifier/v1/save_settings' ),
+		'image_url' => get_rest_url( get_current_blog_id(), 'post_modifier/v1/image' ),
 	) );
 
 	wp_enqueue_script( 'al-moment-script', 'http://bgrins.github.io/spectrum/spectrum.js' );
@@ -57,7 +59,6 @@ function is_active() {
  * @return string the modified title
  */
 function al_add_dashes( $title ) {
-
 	if ( is_active() ) {
 		if ( in_the_loop() ) {
 			if ( strpos( $title, getSetting( 'special_word' ) ) !== false ) {
@@ -81,11 +82,11 @@ function al_rest_api_init() {
 }
 
 function al_display_page() {
-
 	include_once __DIR__ . '/views/main.php';
 	include_once __DIR__ . '/views/post-content.php';
 	include_once __DIR__ . '/views/post-metadata.php';
 	include_once __DIR__ . '/views/live-preview.php';
+	include_once __DIR__ . '/views/logo-picker.php';
 }
 
 function al_register_post_modifier_options() {
@@ -96,6 +97,20 @@ function al_add_menu_item() {
 	add_menu_page( 'Post modifier', 'Post modifier', 'administrator', 'al_da_settings', 'al_display_page', 'https://api.iconify.design/bi:dash-circle-fill.svg?color=%23FFF' );
 }
 
+/**
+ * @param $classes
+ *
+ * @return mixed the classes we want to add
+ */
+function al_add_post_class( $classes ) {
+	$classes[] = 'custom-header_color';
+
+	return $classes;
+}
+
+/**
+ * Adds style to the custom class added to the content of a post
+ */
 function al_alter_content_color() {
 	if ( is_active() ) {
 		echo '<style>
@@ -104,12 +119,6 @@ function al_alter_content_color() {
 		}
 		</style>';
 	}
-}
-
-function al_add_post_class( $classes ) {
-	$classes[] = 'custom-header_color';
-
-	return $classes;
 }
 
 function al_format_date( $the_date ) {

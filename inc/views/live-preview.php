@@ -1,15 +1,17 @@
 <script id="views-live-preview" type="text/html">
 
 	<div id="post-date">
-		<%= post_date %>
+		<%= postDate %>
 	</div>
 
 	<h2 id="post-title">
-		<%= post_title %>
+		<%= postTitle %>
 	</h2>
 
 	<div id="post-content">
-		<%= post_content %>
+		<%= postContent %>
 	</div>
+
+	<img id="site-logo" src="<%= siteLogo%>"/>
 
 </script>

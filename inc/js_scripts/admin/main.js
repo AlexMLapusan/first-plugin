@@ -18,8 +18,8 @@
 		},
 		render: function () {
 			const _html = tpl( 'views/post-content', {
-				'option': this.model.get( 'plugin_state' ),
-				'special_word': this.model.get( 'special_word' ),
+				option: this.model.get( 'plugin_state' ),
+				specialWord: this.model.get( 'special_word' ),
 			} );
 			this.$el.html( _html );
 		},
@@ -40,7 +40,7 @@
 		},
 		render: function () {
 			const _html = tpl( 'views/post-metadata', {
-				'date_format': this.model.get( 'custom_date_format' )
+				dateFormat: this.model.get( 'custom_date_format' )
 			} );
 			this.$el.html( _html );
 		},
@@ -74,9 +74,10 @@
 		initialize: function () {
 
 			const _html = tpl( 'views/live-preview', {
-				post_date: post_modifier.preview.rand_post_date,
-				post_title: post_modifier.preview.rand_post_title,
-				post_content: post_modifier.preview.rand_post_content
+				postDate: post_modifier.preview.rand_post_date,
+				postTitle: post_modifier.preview.rand_post_title,
+				postContent: post_modifier.preview.rand_post_content,
+				siteLogo: post_modifier.settings.site_logo_src
 			} );
 			this.$el.find( '.actual-preview' ).append( _html );
 			this.render();
@@ -99,12 +100,39 @@
 		}
 	} );
 
+	let LogoPickerView = Backbone.View.extend( {
+		initialize: function () {
+			this.$el.find( '.logo-picker' ).append( tpl( 'views/logo-picker' ), {} );
+			this.$el.find( '#logo-pick-button' ).click( () => frame.open() );
+		},
+	} );
+
+	let frame = wp.media( {
+		title: 'Select or Upload Media Of Your Chosen Persuasion',
+		button: {
+			text: 'Use this media'
+		},
+		multiple: false  // Set to true to allow multiple files to be selected
+	} );
+
+	frame.on( 'select', () => {
+		let attachment = frame.state().get( 'selection' ).first();
+		$.ajax( {
+			type: 'POST',
+			url: post_modifier.image_url + "/" + attachment.attributes.id,
+			dataType: 'json'
+		} ).done( function ( response ) {
+			$("#site-logo").attr('src', response)
+		} );
+	} );
+
 	let Model = Backbone.Model.extend( {url: post_modifier.rest_url} ),
 		model = new Model( post_modifier.settings );
 
 	let contentView = new PostContentView( {model: model, el: '.post-content-settings'} ),
 		metadataView = new PostMetadataView( {model: model, el: '.post-metadata-settings'} ),
 		settings = new SettingsView( {model: model, el: '.post-modifier-settings', attributes: {content: contentView, metadata: metadataView,}} ),
-		preview = new PreviewView( {model: model, el: '.live-preview-container'} );
+		preview = new PreviewView( {model: model, el: '.live-preview-container'} ),
+		logoPicker = new LogoPickerView( { el: '.site-settings-container'} );
 
 } )( jQuery );
