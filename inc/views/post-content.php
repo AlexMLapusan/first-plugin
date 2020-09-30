@@ -7,7 +7,7 @@
 	</div>
 	<div>
 		<label for="special-word">Special word: </label>
-		<input data-model_attr_name="special_word" id="special-word" type="text" name="special-word" value="<%= special_word %>">
+		<input data-model_attr_name="special_word" id="special-word" type="text" name="special-word" value="<%= specialWord %>">
 	</div>
 	<div>
 		<label for="header-color-picker">Header color: </label>

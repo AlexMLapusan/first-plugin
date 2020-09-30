@@ -95,8 +95,3 @@ function getMomentFormat( format ) {
 		return letter;
 	} ).join( '' );
 }
-
-function media() {
-
-
-}

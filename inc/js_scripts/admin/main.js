@@ -18,8 +18,8 @@
 		},
 		render: function () {
 			const _html = tpl( 'views/post-content', {
-				'option': this.model.get( 'plugin_state' ),
-				'special_word': this.model.get( 'special_word' ),
+				option: this.model.get( 'plugin_state' ),
+				specialWord: this.model.get( 'special_word' ),
 			} );
 			this.$el.html( _html );
 		},
@@ -40,7 +40,7 @@
 		},
 		render: function () {
 			const _html = tpl( 'views/post-metadata', {
-				'date_format': this.model.get( 'custom_date_format' )
+				dateFormat: this.model.get( 'custom_date_format' )
 			} );
 			this.$el.html( _html );
 		},
@@ -74,10 +74,10 @@
 		initialize: function () {
 
 			const _html = tpl( 'views/live-preview', {
-				post_date: post_modifier.preview.rand_post_date,
-				post_title: post_modifier.preview.rand_post_title,
-				post_content: post_modifier.preview.rand_post_content,
-				site_logo: post_modifier.settings.site_logo_src
+				postDate: post_modifier.preview.rand_post_date,
+				postTitle: post_modifier.preview.rand_post_title,
+				postContent: post_modifier.preview.rand_post_content,
+				siteLogo: post_modifier.settings.site_logo_src
 			} );
 			this.$el.find( '.actual-preview' ).append( _html );
 			this.render();
@@ -104,8 +104,6 @@
 		initialize: function () {
 			this.$el.find( '.logo-picker' ).append( tpl( 'views/logo-picker' ), {} );
 			this.$el.find( '#logo-pick-button' ).click( () => frame.open() );
-		},
-		render: function () {
 		},
 	} );
 

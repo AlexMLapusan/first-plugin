@@ -4,10 +4,3 @@
 	<button name="logo" id="logo-pick-button">Pick logo</button>
 
 </script>
-
-
-
-
-
-
-
