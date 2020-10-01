@@ -140,9 +140,7 @@
 		logoModels = new Backbone.Collection();
 
 	for ( const [ key, value ] of Object.entries( post_modifier.settings.logo_srcs ) ) {
-		let currentModel = new LogoPickerModel( {src: value} ).set( 'id', key ).on( 'change', function () {
-			console.log( this )
-		} )
+		let currentModel = new LogoPickerModel( {src: value} ).set( 'id', key );
 		logoModels.push( currentModel );
 	}
 
