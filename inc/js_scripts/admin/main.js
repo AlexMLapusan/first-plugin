@@ -1,5 +1,16 @@
 ( function ( $ ) {
 
+	const viewPentruLogo = new Backbone.View( {
+		initialize: function ( attr ) {
+			this.listenTo( this.model, 'change:src', this.render );
+
+			this.render();
+		},
+		render: function () {
+			this.$el = template( 'logo' )();
+		}
+	} );
+
 	let deviceLogoPickerClicked = "";
 
 	let PostContentView = Backbone.View.extend( {
@@ -74,7 +85,6 @@
 
 	let PreviewView = Backbone.View.extend( {
 		initialize: function () {
-
 			const _html = tpl( 'views/live-preview', {
 				postDate: post_modifier.preview.rand_post_date,
 				postTitle: post_modifier.preview.rand_post_title,
@@ -83,6 +93,10 @@
 				tabletSiteLogo: post_modifier.settings.logo_srcs.tablet,
 				mobileSiteLogo: post_modifier.settings.logo_srcs.mobile,
 			} );
+
+			/* [ {id:1, src:'sds'},{...},{}] */
+			this.collection = new Backbone.Collection( post_modifier.settings.logo_srcs );
+
 			this.$el.find( '.actual-preview' ).append( _html );
 			this.render();
 			this.model.on( 'change:header_color', this.render.bind( this ) );
@@ -95,7 +109,14 @@
 		render: function () {
 			this.setTitleColor( this.model.get( 'header_color' ) );
 			this.setContentColor( this.model.get( 'content_color' ) );
+
 			this.$el.find( '#site-logo' ).attr( 'src', post_modifier.settings.site_logo_src );
+
+			this.collection.each( model => {
+				this.$el.find( '.logo-container' ).append( new viewPentruLogo(
+					{model: model}
+				) );
+			} );
 		},
 		setTitleColor: function ( color ) {
 			this.$el.find( '#post-title' ).css( 'color', '#' + color );
@@ -109,7 +130,7 @@
 		initialize: function () {
 			this.$el.find( '.logo-picker' ).append( tpl( 'views/logo-picker' ), {} );
 			this.$el.find( '.logo-picker-button' ).click( ( event ) => {
-				deviceLogoPickerClicked = $( event.target ).attr( 'id' );
+				frame.device = event.target.id;
 				frame.open();
 			} );
 		},
@@ -125,10 +146,11 @@
 
 	frame.on( 'select', function () {
 		let attachment = frame.state().get( 'selection' ).first();
+
 		$.ajax( {
 			type: 'POST',
 			url: post_modifier.image_url + "/" + attachment.attributes.id,
-			data: {device: deviceLogoPickerClicked},
+			data: {device: frame.device},
 			dataType: 'json'
 		} ).done( function ( response ) {
 			$( '.actual-preview' ).find( '#' + deviceLogoPickerClicked ).attr( 'src', response[ deviceLogoPickerClicked ] );
