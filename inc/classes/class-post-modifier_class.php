@@ -28,8 +28,13 @@ class Post_Modifier_Settings {
 	}
 
 	public function updateSetting( $name, $value ) {
-		$settings[ $name ] = $value;
+		$this->settings[ $name ] = $value;
 		update_option( $name, $value );
+	}
+
+	public function updateLogoSrcs( $device, $value ) {
+		$this->settings['logo_srcs'][ $device ] = $value;
+		update_option('logo_srcs', $this->settings['logo_srcs']);
 	}
 }
 
