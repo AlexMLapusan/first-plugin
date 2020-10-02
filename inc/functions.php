@@ -87,6 +87,7 @@ function al_display_page() {
 	include_once __DIR__ . '/views/post-metadata.php';
 	include_once __DIR__ . '/views/live-preview.php';
 	include_once __DIR__ . '/views/logo-picker.php';
+	include_once __DIR__ . '/views/logo.php';
 }
 
 function al_register_post_modifier_options() {
@@ -127,5 +128,9 @@ function al_format_date( $the_date ) {
 	}
 
 	return $the_date;
+}
+
+function al_get_proper_logo( $device ) {
+	return get_option('logo_srcs')[Constants::device_indexes($device)]['src'];
 }
 

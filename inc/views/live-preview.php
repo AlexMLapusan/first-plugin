@@ -12,8 +12,7 @@
 		<%= postContent %>
 	</div>
 
-	<div><img id="desktop" src="<%= desktopSiteLogo%>"/></div>
-	<div><img id="tablet" src="<%= tabletSiteLogo%>"/></div>
-	<div><img id="mobile" src="<%= mobileSiteLogo%>"/></div>
+	<div id="logo-container">
+	</div>
 
 </script>

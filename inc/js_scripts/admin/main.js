@@ -1,6 +1,21 @@
 ( function ( $ ) {
 
-	let deviceLogoPickerClicked = "";
+	console.log( post_modifier.settings.logo_srcs );
+
+	let LogoViews = Backbone.View.extend( {
+		initialize: function () {
+			this.model.on( 'change', () => {
+				this.render();
+			} )
+			this.render();
+		},
+		render: function () {
+			this.$el = $( tpl( 'views/logo', {
+				id: this.model.get( 'id' ),
+				src: this.model.get( 'src' ),
+			} ) );
+		}
+	} );
 
 	let PostContentView = Backbone.View.extend( {
 		initialize: function () {
@@ -79,11 +94,17 @@
 				postDate: post_modifier.preview.rand_post_date,
 				postTitle: post_modifier.preview.rand_post_title,
 				postContent: post_modifier.preview.rand_post_content,
-				desktopSiteLogo: post_modifier.settings.logo_srcs.desktop,
-				tabletSiteLogo: post_modifier.settings.logo_srcs.tablet,
-				mobileSiteLogo: post_modifier.settings.logo_srcs.mobile,
 			} );
 			this.$el.find( '.actual-preview' ).append( _html );
+
+			this.logos = logoModels;
+
+			this.logos.each( model => {
+				this.$el.find( '.actual-preview' ).append( ( new LogoViews(
+					{model: model}
+				) ).$el );
+			} );
+
 			this.render();
 			this.model.on( 'change:header_color', this.render.bind( this ) );
 			this.model.on( 'change:content_color', this.render.bind( this ) );
@@ -96,6 +117,10 @@
 			this.setTitleColor( this.model.get( 'header_color' ) );
 			this.setContentColor( this.model.get( 'content_color' ) );
 			this.$el.find( '#site-logo' ).attr( 'src', post_modifier.settings.site_logo_src );
+			this.logos.each( model => {
+				this.$el.find( '.actual-preview' ).find( '#' + model.get( 'id' ) ).attr( 'src', model.get( 'src' ) );
+			} );
+
 		},
 		setTitleColor: function ( color ) {
 			this.$el.find( '#post-title' ).css( 'color', '#' + color );
@@ -109,7 +134,7 @@
 		initialize: function () {
 			this.$el.find( '.logo-picker' ).append( tpl( 'views/logo-picker' ), {} );
 			this.$el.find( '.logo-picker-button' ).click( ( event ) => {
-				deviceLogoPickerClicked = $( event.target ).attr( 'id' );
+				frame.device = event.target.id;
 				frame.open();
 			} );
 		},
@@ -120,6 +145,7 @@
 		button: {
 			text: 'Use this media'
 		},
+		device: '',
 		multiple: false  // Set to true to allow multiple files to be selected
 	} );
 
@@ -128,21 +154,15 @@
 		$.ajax( {
 			type: 'POST',
 			url: post_modifier.image_url + "/" + attachment.attributes.id,
-			data: {device: deviceLogoPickerClicked},
+			data: {device: frame.device},
 			dataType: 'json'
 		} ).done( function ( response ) {
-			$( '.actual-preview' ).find( '#' + deviceLogoPickerClicked ).attr( 'src', response[ deviceLogoPickerClicked ] );
-			logoModels.get( deviceLogoPickerClicked ).set( 'src', response[ deviceLogoPickerClicked ] );
+			logoModels.get( frame.device ).set( 'src', response.find( elem => elem.id === frame.device ).src );
+			preview.render();
 		} );
 	} );
 
-	let LogoPickerModel = Backbone.Model.extend( {} ),
-		logoModels = new Backbone.Collection();
-
-	for ( const [ key, value ] of Object.entries( post_modifier.settings.logo_srcs ) ) {
-		let currentModel = new LogoPickerModel( {src: value} ).set( 'id', key );
-		logoModels.push( currentModel );
-	}
+	let logoModels = new Backbone.Collection( post_modifier.settings.logo_srcs );
 
 	let Model = Backbone.Model.extend( {url: post_modifier.rest_url} ),
 		model = new Model( post_modifier.settings );

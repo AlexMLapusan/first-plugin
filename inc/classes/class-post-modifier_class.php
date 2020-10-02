@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../setup/trait-settings.php';
+require_once __DIR__ . '/class-constants.php';
 
 class Post_Modifier_Settings {
 	private $settings = [];
@@ -33,8 +34,12 @@ class Post_Modifier_Settings {
 	}
 
 	public function updateLogoSrcs( $device, $value ) {
-		$this->settings['logo_srcs'][ $device ] = $value;
-		update_option('logo_srcs', $this->settings['logo_srcs']);
+		$this->settings['logo_srcs'][Constants::device_indexes($device)]['src'] = $value;
+		update_option( 'logo_srcs', $this->settings['logo_srcs'] );
+	}
+
+	public function getLogoSource($device = 'desktop'){
+		$this->settings['logo_srcs'][Constants::device_indexes($device)]['src'];
 	}
 }
 
