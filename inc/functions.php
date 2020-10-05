@@ -136,6 +136,17 @@ function al_get_proper_logo() {
 	foreach ( Constants::devices() as $device => $width ) {
 		$response .= '<source srcset=' . get_option( 'logo_srcs' )[ Constants::device_indexes( $device ) ]['src'] . " media='(min-width:" . $width . "px)'>";
 	}
+
 	return $response;
+}
+
+function al_post_title( $atts ) {
+
+	$attributes = shortcode_atts( array(
+		'title' => 'Default title',
+	), $atts );
+
+	return $attributes['title'];
+
 }
 
