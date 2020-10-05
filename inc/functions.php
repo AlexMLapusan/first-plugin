@@ -134,7 +134,7 @@ function al_get_proper_logo() {
 
 	$response = '';
 	foreach ( Constants::devices() as $device => $width ) {
-		$response .= '<source srcset=' . get_option( 'logo_srcs' )[ Constants::device_indexes( $device ) ]['src'] . " media='(min-width:" . $width . "px)'>";
+		$response .= '<source srcset=' . get_option( 'logo_srcs' )[ array_search($device, array_column(getSetting('logo_srcs'), 'id'))]['src'] . " media='(min-width:" . $width . "px)'>";
 	}
 
 	return $response;

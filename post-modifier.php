@@ -38,6 +38,7 @@ class Main {
 	}
 
 	public function init() {
+		$this->shortcodes();
 		$this->includes();
 		$this->hooks();
 	}

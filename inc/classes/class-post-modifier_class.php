@@ -34,13 +34,10 @@ class Post_Modifier_Settings {
 	}
 
 	public function updateLogoSrcs( $device, $value ) {
-		$this->settings['logo_srcs'][Constants::device_indexes($device)]['src'] = $value;
+		$this->settings['logo_srcs'][array_search($device, array_column($this->settings['logo_srcs'], 'id'))]['src'] = $value;
 		update_option( 'logo_srcs', $this->settings['logo_srcs'] );
 	}
 
-	public function getLogoSource($device = 'desktop'){
-		$this->settings['logo_srcs'][Constants::device_indexes($device)]['src'];
-	}
 }
 
 

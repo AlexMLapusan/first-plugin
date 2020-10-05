@@ -2,13 +2,6 @@
 
 class Constants {
 
-	public static function device_indexes($device){
-		$map = array('desktop' => 0,
-		             'tablet' => 1,
-		             'mobile' => 2);
-		return $map[$device];
-	}
-
 	public static function settings_defaults() {
 		return array(
 			'plugin_state'       => 'off',
