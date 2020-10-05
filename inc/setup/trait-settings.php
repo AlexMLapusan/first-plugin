@@ -13,6 +13,8 @@ trait Settings {
 	private function __construct(  ) {
 		foreach (Constants::settings_defaults() as $name => $default_value){
 			$this->settings[$name] = get_option($name, $default_value);
+//			$this->settings[$name] = $default_value;
+//			update_option($name, $default_value);
 		}
 
 	}

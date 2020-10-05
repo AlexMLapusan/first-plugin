@@ -87,6 +87,7 @@ function al_display_page() {
 	include_once __DIR__ . '/views/post-metadata.php';
 	include_once __DIR__ . '/views/live-preview.php';
 	include_once __DIR__ . '/views/logo-picker.php';
+	include_once __DIR__ . '/views/logo.php';
 }
 
 function al_register_post_modifier_options() {
@@ -127,5 +128,25 @@ function al_format_date( $the_date ) {
 	}
 
 	return $the_date;
+}
+
+function al_get_proper_logo() {
+
+	$response = '';
+	foreach ( Constants::devices() as $device => $width ) {
+		$response .= '<source srcset=' . get_option( 'logo_srcs' )[ array_search($device, array_column(getSetting('logo_srcs'), 'id'))]['src'] . " media='(min-width:" . $width . "px)'>";
+	}
+
+	return $response;
+}
+
+function al_post_title( $atts ) {
+
+	$attributes = shortcode_atts( array(
+		'title' => 'Default title',
+	), $atts );
+
+	return $attributes['title'];
+
 }
 

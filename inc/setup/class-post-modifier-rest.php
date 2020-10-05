@@ -20,7 +20,7 @@ class Post_Modifier_Rest {
 
 		register_rest_route( static::$namespace, '/image' . '/(?P<id>[\d]+)', array(
 			array(
-				'methods'             => WP_REST_Server::EDITABLE,
+				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => array( 'post_modifier_Rest', 'al_get_image' ),
 				'permission_callback' => '__return_true',
 			),
@@ -31,8 +31,9 @@ class Post_Modifier_Rest {
 	 * @param WP_REST_Response $request
 	 */
 	public static function al_get_image( $request ) {
-		Post_Modifier_Settings::getInstance()->updateSetting( 'site_logo_src', wp_get_attachment_image_src( $request->get_param( 'id' ) )[0] );
-		echo( json_encode( get_option( 'site_logo_src' ) ) );
+
+		Post_Modifier_Settings::getInstance()->updateLogoSrcs( $request->get_param( 'device' ), wp_get_attachment_image_src( $request->get_param( 'id' ) )[0] );
+		echo( json_encode( getSetting( 'logo_srcs' ) ) );
 	}
 
 	/**

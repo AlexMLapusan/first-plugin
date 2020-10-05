@@ -12,6 +12,7 @@
 		<%= postContent %>
 	</div>
 
-	<img id="site-logo" src="<%= siteLogo%>"/>
+	<div id="logo-container">
+	</div>
 
 </script>
