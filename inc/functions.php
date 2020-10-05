@@ -130,7 +130,12 @@ function al_format_date( $the_date ) {
 	return $the_date;
 }
 
-function al_get_proper_logo( $device ) {
-	return get_option('logo_srcs')[Constants::device_indexes($device)]['src'];
+function al_get_proper_logo() {
+
+	$response = '';
+	foreach ( Constants::devices() as $device => $width ) {
+		$response .= '<source srcset=' . get_option( 'logo_srcs' )[ Constants::device_indexes( $device ) ]['src'] . " media='(min-width:" . $width . "px)'>";
+	}
+	return $response;
 }
 

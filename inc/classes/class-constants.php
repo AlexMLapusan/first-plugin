@@ -32,4 +32,11 @@ class Constants {
 			),
 		);
 	}
+
+	public static function devices(){
+		return array('desktop' => 992,
+		             'tablet' => 768,
+		             'mobile' => 480);
+	}
+
 }
