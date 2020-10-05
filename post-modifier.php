@@ -12,7 +12,6 @@ class Main {
 	}
 
 	private function hooks() {
-
 		add_action( 'rest_api_init', 'al_rest_api_init' );
 
 		add_filter( 'the_title', 'al_add_dashes' );
@@ -31,9 +30,11 @@ class Main {
 
 		add_action( 'wp_head', 'al_alter_content_color' );
 
-		add_shortcode( 'al_post_title', 'al_post_title' );
+		add_filter( 'the_title', 'do_shortcode' );
+	}
 
-		add_filter('the_title', 'do_shortcode');
+	private function shortcodes() {
+		add_shortcode( 'al_post_title', 'al_post_title' );
 	}
 
 	public function init() {

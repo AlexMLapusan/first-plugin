@@ -95,12 +95,12 @@
 				postTitle: post_modifier.preview.rand_post_title,
 				postContent: post_modifier.preview.rand_post_content,
 			} );
-			this.$el.find( '.actual-preview' ).append( _html );
+			this.$( '.actual-preview' ).append( _html );
 
 			this.logos = logoModels;
 
 			this.logos.each( model => {
-				this.$el.find( '.actual-preview' ).append( ( new LogoViews(
+				this.$( '.actual-preview' ).append( ( new LogoViews(
 					{model: model}
 				) ).$el );
 			} );
@@ -110,30 +110,30 @@
 			this.model.on( 'change:content_color', this.render.bind( this ) );
 			this.model.on( 'change:custom_date_format', () => {
 				let date = moment( post_modifier.preview.rand_post_date, getMomentFormat( post_modifier.preview.rand_post_date_format ) );
-				this.$el.find( '#post-date' ).html( date.format( getMomentFormat( this.model.get( 'custom_date_format' ) ) ) );
+				this.$( '#post-date' ).html( date.format( getMomentFormat( this.model.get( 'custom_date_format' ) ) ) );
 			} )
 		},
 		render: function () {
 			this.setTitleColor( this.model.get( 'header_color' ) );
 			this.setContentColor( this.model.get( 'content_color' ) );
-			this.$el.find( '#site-logo' ).attr( 'src', post_modifier.settings.site_logo_src );
+			this.$( '#site-logo' ).attr( 'src', post_modifier.settings.site_logo_src );
 			this.logos.each( model => {
-				this.$el.find( '.actual-preview' ).find( '#' + model.get( 'id' ) ).attr( 'src', model.get( 'src' ) );
+				this.$( `.actual-preview #${model.get( 'id' )}` ).attr( 'src', model.get( 'src' ) );
 			} );
 
 		},
 		setTitleColor: function ( color ) {
-			this.$el.find( '#post-title' ).css( 'color', '#' + color );
+			this.$( '#post-title' ).css( 'color', '#' + color );
 		},
 		setContentColor: function ( color ) {
-			this.$el.find( '#post-content' ).css( 'color', '#' + color );
+			this.$( '#post-content' ).css( 'color', '#' + color );
 		}
 	} );
 
 	let LogoPickerView = Backbone.View.extend( {
 		initialize: function () {
-			this.$el.find( '.logo-picker' ).append( tpl( 'views/logo-picker' ), {} );
-			this.$el.find( '.logo-picker-button' ).click( ( event ) => {
+			this.$( '.logo-picker' ).append( tpl( 'views/logo-picker' ), {} );
+			this.$( '.logo-picker-button' ).click( ( event ) => {
 				frame.device = event.target.id;
 				frame.open();
 			} );
